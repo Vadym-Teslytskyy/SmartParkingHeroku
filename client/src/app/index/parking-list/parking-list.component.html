@@ -1,0 +1,14 @@
+<h3 class="text-center">Parkings list:</h3>
+<ul *ngFor="let parking of filteredParkings">
+    <div>
+        <ngb-alert type="dark" [dismissible]="false">
+            <h3><b><i>Address: </i></b>state {{parking.addressDto.state}}, city {{parking.addressDto.city}}, street
+                {{parking.addressDto.street}}, number {{parking.addressDto.buildingNumber}}</h3>
+            <p><b><i>Provider name:</i></b> {{parking.providerDto.name}}</p>
+            <p><b><i>Price:</i></b> {{parking.price}}</p>
+            <div>
+                <a class="btn btn-success" routerLink="/parkingdetail/{{parking.id}}">More Info</a>
+            </div>
+        </ngb-alert>
+    </div>
+</ul>

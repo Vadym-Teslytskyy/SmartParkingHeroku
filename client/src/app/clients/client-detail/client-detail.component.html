@@ -1,0 +1,38 @@
+<div class="container-fluid container-style">
+    <form class="formstyle offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+        <h3 id = "head" class="heading row offset-4">Cliet's details</h3>
+        <div class="row">
+            <h5><b>First name</b>: {{client.firstName}}</h5>
+        </div>
+
+        <div class="row">
+            <h5><b>Last name</b>: {{client.lastName}}</h5>
+        </div>
+
+        <div class="row">
+            <h5><b>Provider</b>: {{client.provider}}</h5>
+            <a id="a" (click)="seeProviderDetails()">(Details)</a>
+        </div>
+
+        <div *ngIf="showProviderDetails" class="row">
+            <h5><b>Provider address</b>: {{provider.address}}</h5>
+            <h5 [ngStyle]="{color: provider.active == false ? 'red' : 'blue'}"><b>Provider status</b>:
+                {{provider.active}}</h5>
+        </div>
+
+        <div class="row">
+            <h5><b>Role</b>: {{client.role}}</h5>
+        </div>
+
+        <div>
+            <h3>Favorites parkings:</h3>
+            <li *ngFor="let favoriteName of client.favoritesNames">{{favoriteName}}</li>
+        </div>
+        <a routerLink (click)="goToClientsList()">(Go to clients list)</a>
+        <a routerLink (click)="goToClientEditForm()">(Go to edit form)</a>
+    </form>
+</div>
+
+
+
+

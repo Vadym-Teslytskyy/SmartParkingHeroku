@@ -1,0 +1,12 @@
+#clientImage {
+    max-height: 5em;
+}
+
+td {
+    min-width: 35em;
+}
+
+#aInfo {
+    display: block;
+    margin-top: 40%;
+}

@@ -1,0 +1,19 @@
+.parking-configure-form {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.parking-configure-headers-align .mat-expansion-panel-header-title,
+.parking-configure-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+}
+
+.parking-configure-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.full-width {
+    width: 100%;
+}

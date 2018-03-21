@@ -1,0 +1,56 @@
+<div class="container-fluid container-style">
+    <form novalidate #clientForm="ngForm" (ngSubmit)="udateClientById()"
+          class="formstyle offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+        <h3 class="heading row offset-4">Cliet Edit Form</h3>
+
+        <div class="row">
+            <input type="text" name="firstName" [(ngModel)]="client.firstName" class="form-control" required
+                   minlength="3" placeholder="First Name">
+        </div>
+
+        <div class="row">
+            <input type="text" name="lastName" [(ngModel)]="client.lastName" class="form-control" required
+                   minlength="3" placeholder="Last Name">
+        </div>
+
+        <div class="row">
+            <input type="email" name="email" [(ngModel)]="client.email" class="form-control"
+                   required pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*"
+                   placeholder="email">
+        </div>
+
+        <div class="row">
+            <input type="text" name="provider" [(ngModel)]="client.provider" class="form-control" readonly>
+        </div>
+
+        <div class="row">
+            <h5 [(ngModel)]=client.provider>Current role: {{client.role}}</h5>
+        </div>
+
+        <mat-form-field>
+            <mat-select [(value)]="selectedRole" placeholder="select role">
+                <mat-option *ngFor="let role of roles" [value]="role.name">
+                    {{ role.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="row offset-5 submit">
+            <button mat-button class="btn btn-outline-primary"
+                    type="submit"
+                    [disabled]="!clientForm.valid"
+                    (click)="udateClientById()">
+                Edit
+            </button>
+        </div>
+        <a id="aBack" routerLink (click)="goToClientList()">(Go client list)</a>
+    </form>
+</div>
+
+
+
+
+
+
+
+

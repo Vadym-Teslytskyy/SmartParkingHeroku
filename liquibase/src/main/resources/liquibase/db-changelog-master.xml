@@ -1,0 +1,19 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <include file="liquibase/db-table-provider/create_table_provider.xml"/>
+    <include file="liquibase/db-table-provider/insert_into_table_provider.xml"/>
+    <include file="liquibase/db-table-client/create_table_client.xml"/>
+    <include file="liquibase/db-table-client/insert_into_table_client.xml"/>
+    <include file="liquibase/db-table-parking/create_table_parking.xml"/>
+    <include file="liquibase/db-table-spot/create_table_spot.xml"/>
+    <include file="liquibase/db-table-favorite/create_table_favorite.xml"/>
+    <include file="liquibase/db-table-event/create_table_event.xml"/>
+    <include file="liquibase/db-table-parking/insert_into_table_parking.xml"/>
+    <include file="liquibase/db-table-spot/insert_into_table_spot.xml"/>
+    <include file="liquibase/db-table-favorite/insert_into_table_favorite.xml"/>
+    <include file="liquibase/db-table-event/insert_into_table_event.xml"/>
+
+</databaseChangeLog>

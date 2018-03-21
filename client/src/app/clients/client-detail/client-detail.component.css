@@ -1,0 +1,65 @@
+.container-style {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin-top: 15%;
+}
+
+.heading {
+    margin-bottom: 5%;
+}
+
+.submit {
+    margin-top: 2%;
+}
+
+.registration {
+    margin-top: 10%;
+}
+
+.customwidth {
+    width: 100%;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+input {
+    margin: 1%;
+}
+
+li {
+    font-size: 1.3em;
+}
+
+div {
+    margin: 3%;
+}
+
+b {
+    color: darkblue;
+}
+
+h3 {
+    color: saddlebrown;
+}
+
+#head{
+    display: block;
+    margin-left: 4%;
+}
+
+button {
+
+}
+
+ #a {
+    color: indianred;
+}
+
+ a{
+     color: #6610f2;
+ }
+
+ b{
+     text-decoration: underline ;
+ }

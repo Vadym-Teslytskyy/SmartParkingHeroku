@@ -1,0 +1,27 @@
+<h1>Clients List</h1>
+<div class="table-container">
+    <input #searchBox id="search-box" (keyup)="findClientsFromBackEnd(searchBox.value)"
+           placeholder="search">
+    <div id="buttons">
+        <button class="btn btn-outline-danger"
+                (click)="getAllClients()">Show all clients
+        </button>
+        <button class="btn btn-outline-danger"
+                (click)="findDrivers()">Find drivers
+        </button>
+        <button class="btn btn-outline-danger"
+                (click)="findProviderManagers()">Find managers
+        </button>
+        <button class="btn btn-outline-danger"
+                (click)="findSuperusers()">Find superusers
+        </button>
+    </div>
+    <table class="table table-filter">
+        <tbody>
+        <app-client-item
+                *ngFor="let client of clients"
+                [client]="client"
+        ></app-client-item>
+        </tbody>
+    </table>
+</div>`

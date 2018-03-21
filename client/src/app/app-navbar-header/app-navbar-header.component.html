@@ -1,0 +1,42 @@
+<!-- <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/index">
+    <h3>{{navTitle}}</h3>
+  </a>
+  <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="isCollapsed" aria-controls="navbarsExampleDefault">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse text-right" id="navbarsExampleDefault" [ngbCollapse]="!isCollapsed">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown" ngbDropdown>
+        <a class="nav-link dropdown-toggle" id="dropdown01" ngbDropdownToggle>Change view</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown01" ngbDropdownMenu>
+          <a class="dropdown-item" href="#">Table view</a>
+          <a class="dropdown-item" href="#">Map view</a>
+        </div>
+      </li>
+      <li >
+        <a mat-button routerLink="/configuration">Configuration</a>
+
+      </li>
+      <li>
+        <a mat-raised-button class="ml-3" color="primary" routerLink="/login" style="font-size:18px;">SignIn/SignUp
+          <i class="material-icons">&#xE853;</i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav> -->
+<mat-toolbar>
+  <h3>
+    <a routerLink="/" style="color:black;">
+      <b>{{navTitle}}</b>
+    </a>
+  </h3>
+  <span class="example-spacer"></span>
+  <button [routerLink]="['/configuration']" mat-icon-button >
+    <mat-icon>settings</mat-icon>
+  </button>
+  <button mat-raised-button class="ml-3" color="primary" [routerLink]="['/login']" style="font-size:18px;">SignIn/SignUp
+    <i class="material-icons">&#xE853;</i>
+  </button>
+</mat-toolbar>

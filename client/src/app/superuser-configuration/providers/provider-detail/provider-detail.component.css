@@ -1,0 +1,13 @@
+.banButton{
+    color: red;
+}
+
+.active {
+    color: green;
+}
+
+.noActive {
+    color: red;
+}
+
+

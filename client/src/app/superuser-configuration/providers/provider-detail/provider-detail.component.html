@@ -1,0 +1,10 @@
+<div *ngIf="provider">
+    <h3><b><i>Name: </i></b>{{provider.name}} <a routerLink="/configuration/provider/add/{{provider.id}}">( Edit )</a></h3>
+    <p><b><i>ID: </i></b> {{provider.id}}</p>
+    <p><b><i>Address: </i></b>{{provider.city}}, {{provider.street}} st., № {{provider.building}}</p>
+    <p><b><i>State: </i></b><span *ngIf='provider.active; else elseBlock'><span class="active">Active</span></span>
+        <ng-template #elseBlock><span class="noActive"> Non active :</span>(</ng-template>
+    <p><b><i>Parkings:</i></b> <span *ngFor='let number of provider.parkingIds'> Parking №{{number}} <a
+            routerLink="/parkingdetail/{{number}}">(Details)</a> </span></p>
+    <button type="submit" class="btn btn-outline-danger" (click)="changeState()">Change state</button>
+</div>

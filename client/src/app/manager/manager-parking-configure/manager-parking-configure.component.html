@@ -1,0 +1,209 @@
+<div class="container-fluid" *ngIf="!parking">
+    <mat-spinner></mat-spinner>
+</div>
+<div class="container-fluid" *ngIf="parking">
+    <form class="parking-configure-form" [formGroup]="parkingConfigureForm" (ngSubmit)="saveParking()">
+        <legend>Edit parking</legend>
+        <mat-form-field>
+            <input matInput [(ngModel)]="parking.city" placeholder="City"
+                   formControlName="city">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput [(ngModel)]="parking.street" placeholder="Street"
+                   formControlName="street">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput [(ngModel)]="parking.building" placeholder="Building number"
+                   formControlName="building">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput [(ngModel)]="parking.latitude" placeholder="Location latitude"
+                   formControlName="latitude">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [(ngModel)]="parking.longitude" placeholder="Location longitude"
+                   formControlName="longitude">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput [(ngModel)]="parking.price" placeholder="Price"
+                   formControlName="price">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput [(ngModel)]="parking.token" placeholder="Token"
+                   formControlName="token">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput [(ngModel)]="parking.providerName" placeholder="Provider"
+                   formControlName="providerName">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput [(ngModel)]="parking.favoritesCount" placeholder="Favorites count"
+                   formControlName="favoritesCount">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput [(ngModel)]="parking.spotsCount" placeholder="Spots count"
+                   formControlName="spotsCount">
+        </mat-form-field>
+        <div class="row submit">
+            <button mat-raised-button class="full-width" type="submit" color="accent"
+                    [disabled]="!parkingConfigureForm.valid">
+                Submit
+                <mat-icon aria-label="Send and save changes">send</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>
+
+
+<!--Ready first Expansion panel - Address.-->
+
+<!--<div class="container-fluid">-->
+<!--<form class="parking-configure-form" [formGroup]="parkingConfigureForm" (ngSubmit)="saveParking()">-->
+<!--<legend>Edit parking</legend>-->
+
+<!--<mat-accordion class="parking-configure-headers-align">-->
+<!--<mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">-->
+<!--<mat-expansion-panel-header>-->
+<!--<mat-panel-title>Address</mat-panel-title>-->
+<!--<mat-panel-description>-->
+<!--{{parking?.address?.city}} {{parking?.address?.street}}-->
+<!--<mat-icon>store</mat-icon>-->
+<!--</mat-panel-description>-->
+<!--</mat-expansion-panel-header>-->
+<!--<mat-form-field>-->
+<!--<mat-label>Region</mat-label>-->
+<!--<input matInput placeholder="Enter region/state">-->
+<!--</mat-form-field><br>-->
+<!--<mat-form-field>-->
+<!--<input matInput placeholder="City">-->
+<!--</mat-form-field><br>-->
+<!--<mat-form-field>-->
+<!--<input matInput placeholder="Street">-->
+<!--</mat-form-field><br>-->
+<!--<mat-form-field>-->
+<!--<input matInput placeholder="Building number">-->
+<!--</mat-form-field>-->
+<!--</mat-expansion-panel>-->
+<!--</mat-accordion>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--<div id="test-div" class="container-fluid">-->
+<!--<mat-icon>home</mat-icon>-->
+<!--<mat-divider></mat-divider>-->
+
+<!--<mat-form-field>-->
+<!--<input matInput placeholder="Date" [matDatepicker]="picker" (focus)="picker.open()" readonly>-->
+<!--</mat-form-field>-->
+<!--<mat-datepicker #picker></mat-datepicker>-->
+
+
+<!--<mat-form-field>-->
+<!--<input matInput value="Disco party!" placeholder="Message" #message>-->
+<!--</mat-form-field>-->
+<!--<mat-form-field>-->
+<!--<input matInput value="Dance" placeholder="Action" #action>-->
+<!--</mat-form-field>-->
+<!--<button mat-button (click)="openSnackBar(message.value, action.value)">Show snack-bar</button>-->
+
+
+<!--<mat-accordion>-->
+<!--<mat-expansion-panel>-->
+<!--<mat-expansion-panel-header>-->
+<!--<mat-panel-title>-->
+<!--Personal data-->
+<!--</mat-panel-title>-->
+<!--<mat-panel-description>-->
+<!--Type your name and age-->
+<!--</mat-panel-description>-->
+<!--</mat-expansion-panel-header>-->
+
+<!--<mat-form-field>-->
+<!--<input matInput placeholder="First name">-->
+<!--</mat-form-field>-->
+
+<!--<mat-form-field>-->
+<!--<input matInput placeholder="Age">-->
+<!--</mat-form-field>-->
+<!--</mat-expansion-panel>-->
+<!--<mat-expansion-panel (opened)="panelOpenState = true"-->
+<!--(closed)="panelOpenState = false">-->
+<!--<mat-expansion-panel-header>-->
+<!--<mat-panel-title>-->
+<!--Self aware panel-->
+<!--</mat-panel-title>-->
+<!--<mat-panel-description>-->
+<!--Currently I am {{panelOpenState ? 'open' : 'closed'}}-->
+<!--</mat-panel-description>-->
+<!--</mat-expansion-panel-header>-->
+<!--<p>I'm visible because I am open</p>-->
+<!--</mat-expansion-panel>-->
+<!--</mat-accordion>-->
+<!--</div>-->
+
+
+<!--<div *ngIf="parking">-->
+
+<!--<div class="col-md-12">-->
+<!--<h1 class="page-title page-header">Parking Details</h1>-->
+<!--<h4 class="page-title">-->
+<!--Address: {{parking.addressDto.city}}-->
+<!--</h4>-->
+<!--<h4 class="page-title">Address:-->
+<!--<input [(ngModel)]="parking.addressDto" placeholder="Address"/>-->
+<!--</h4>-->
+<!--<h4 class="page-title">-->
+<!--Spots count: {{parking.numberSpots}}-->
+<!--</h4>-->
+<!--<h4 class="page-title">-->
+<!--Spots count: <input [(ngModel)]="parking.numberSpots" placeholder="Spots count"/>-->
+<!--</h4>-->
+<!--<h5 class="page-title">-->
+<!--Price (per hour): {{parking.price}}&#8372;-->
+<!--</h5>-->
+<!--<h5 class="page-title">-->
+<!--Price (per hour): <input [(ngModel)]="parking.price" placeholder="Price (per hour)"/>-->
+<!--</h5>-->
+<!--</div>-->
+
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+
+<!--<div class="card-header">-->
+<!--<h5 class="mb-0">-->
+<!--<a href="#collapseOne" aria-controls="collapseOne"-->
+<!--class="btn btn-primary">-->
+<!--Show spots list-->
+<!--<i class="fa fa-arrow-down ml-1"></i>-->
+<!--</a>-->
+<!--</h5>-->
+<!--</div>-->
+
+<!--<div id="collapseOne" class="collapse"-->
+<!--data-parent="#accordion">-->
+<!--<div class="card-body">-->
+<!--<table class="table table-bordered">-->
+<!--<tr>-->
+<!--<th class="text-center">Spot id</th>-->
+<!--<th class="text-center">Location</th>-->
+<!--<th class="text-center">Genre</th>-->
+<!--<th class="text-center">Release year</th>-->
+<!--<th class="text-center">Available count</th>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--</tr>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->

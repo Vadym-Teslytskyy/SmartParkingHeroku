@@ -1,0 +1,93 @@
+<div *ngIf="parking">
+  <h2>Parking Details</h2>
+  <hr>
+  <h3><b><i>Address: </i></b> {{parking.address}}</h3>
+  <h5><b><i>Provider name:</i></b> {{parking.providerName}}</h5>
+  <h5><b><i>Provider address:</i></b> {{parking.providerAddress}}</h5>
+  <hr>
+  <h4><b><i>Price:</i></b> {{parking.price}} &#8372;</h4>
+  <hr>
+  <div class="row">
+    <div class="col-10">
+        <h3><b><i>Spots: </i></b> General: {{parking.numberSpots}} / Available: {{parking.numberAvailableSpots}}</h3>
+    </div>
+      <div class="col-2 ml-auto">
+          <button mat-raised-button color="primary" (click)="refresh()">Refresh <i class="material-icons">&#xE863;</i></button> 
+      </div>
+    </div>
+
+      <h4><b><i>Fullness: </i></b></h4>
+      <p> <ngb-progressbar [type]="type" [value]="value" [max]="max"> <b>{{fullnessBarMessage}} {{parking.numberAvailableSpots}} spot(s) left!</b></ngb-progressbar></p>
+      <ngb-accordion>
+          <ngb-panel id="preventchange-1">
+              <ng-template ngbPanelTitle>
+                  <div>
+                    <h5><b> Show all spots</b></h5>
+                  </div>
+                </ng-template>
+            <ng-template ngbPanelContent>
+                <ngb-tabset justify="justified">
+                    <ngb-tab>
+                       <ng-template ngbTabTitle><div><b>Show all spots</b></div></ng-template>
+                      <ng-template ngbTabContent>
+                          <table class="table table-hover">
+                              <thead>
+                                <tr class="text-center">
+                                  <th scope="col">Spot number #</th>
+                                  <th scope="col">Availability</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let spot of spots" class="text-center">
+                                    <th scope="row">{{spot.id}}</th>
+                                    
+                                    <td scope="row"  *ngIf="!!spot.isFree; else busy">
+                                        <button type="button" class="btn btn-sm btn-success" disabled>
+                                            Available
+                                        </button>
+                                      </td>
+                                    
+                                    <ng-template #busy>
+                                        <td scope="row">
+                                            <button type="button" class="btn btn-sm btn-secondary" disabled>
+                                              Not Available
+                                            </button>
+                                          </td>
+                                  </ng-template>
+                                  </tr>
+                              </tbody>
+                            </table>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><div> <b>Show only available spots</b></div></ng-template>
+                      <ng-template ngbTabContent>
+                          <table class="table table-hover">
+                              <thead>
+                                <tr class="text-center">
+                                  <th scope="col">Spot number #</th>
+                                  <th scope="col">Availability</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let spot of freeSpots" class="text-center">
+                                    <th scope="row">{{spot.id}}</th>
+                                    
+                                    <td scope="row">
+                                      <button type="button" class="btn btn-sm btn-success" disabled>
+                                        Available
+                                      </button>
+                                    </td>
+                                  
+                                  </tr>
+                              </tbody>
+                            </table>
+                      </ng-template>
+                    </ngb-tab>
+                  </ngb-tabset>
+                
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+
+</div>
