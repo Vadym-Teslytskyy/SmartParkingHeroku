@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 @Configuration
@@ -24,17 +27,32 @@ import java.util.Properties;
 @ComponentScan("com.smartparking.service")
 @EnableJpaRepositories(basePackages = "com.smartparking.repository")
 public class PersistenceContext {
-
     @Bean
-    public DataSource dataSource(Environment environment) {
-        HikariConfig dataSourceConfig = new HikariConfig();
-        dataSourceConfig.setDriverClassName(environment.getRequiredProperty("db.driver"));
-        dataSourceConfig.setJdbcUrl(environment.getRequiredProperty("db.url"));
-        dataSourceConfig.setUsername(environment.getRequiredProperty("db.username"));
-        dataSourceConfig.setPassword(environment.getRequiredProperty("db.password"));
-        dataSourceConfig.setMaximumPoolSize(5);
-        return new HikariDataSource(dataSourceConfig);
+    public DataSource dataSource() throws URISyntaxException {
+        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+
+        DriverManagerDataSource basicDataSource = new DriverManagerDataSource();
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
+
+        return basicDataSource;
     }
+
+//    @Bean
+//    public DataSource dataSource(Environment environment) {
+//        HikariConfig dataSourceConfig = new HikariConfig();
+//        dataSourceConfig.setDriverClassName(environment.getRequiredProperty("db.driver"));
+//        dataSourceConfig.setJdbcUrl(environment.getRequiredProperty("db.url"));
+//        dataSourceConfig.setUsername(environment.getRequiredProperty("db.username"));
+//        dataSourceConfig.setPassword(environment.getRequiredProperty("db.password"));
+//        dataSourceConfig.setMaximumPoolSize(5);
+//        return new HikariDataSource(dataSourceConfig);
+//    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, Environment env) {
