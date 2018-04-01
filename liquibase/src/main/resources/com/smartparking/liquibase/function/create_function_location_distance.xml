@@ -1,0 +1,37 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Nazariy" id="201803220601" dbms="MYSQL">
+        <sql endDelimiter="#">
+            <![CDATA[
+                CREATE FUNCTION LOCATION_DISTANCE(latitude_a DOUBLE, longitude_a DOUBLE,
+                                                  latitude_b DOUBLE, longitude_b DOUBLE)
+                RETURNS DOUBLE
+                LANGUAGE SQL DETERMINISTIC SQL SECURITY DEFINER
+                COMMENT 'Calculates distance between two locations.'
+                BEGIN
+                    DECLARE pk DOUBLE DEFAULT 180 / PI();
+                    DECLARE a1 DOUBLE DEFAULT latitude_a / pk;
+                    DECLARE a2 DOUBLE DEFAULT longitude_a / pk;
+                    DECLARE b1 DOUBLE DEFAULT latitude_b / pk;
+                    DECLARE b2 DOUBLE DEFAULT longitude_b / pk;
+
+                    DECLARE t1 DOUBLE DEFAULT COS(a1) * COS(a2) * COS(b1) * COS(b2);
+                    DECLARE t2 DOUBLE DEFAULT COS(a1) * SIN(a2) * COS(b1) * SIN(b2);
+                    DECLARE t3 DOUBLE DEFAULT SIN(a1) * SIN(b1);
+                    DECLARE tt DOUBLE DEFAULT ACOS(t1 + t2 + t3);
+
+                    IF tt IS NOT NULL
+                        THEN RETURN 6366000 * tt;
+                        ELSE RETURN 0;
+                    END IF;
+                END
+                #
+            ]]>
+        </sql>
+        <comment>Creating function 'location_distance'</comment>
+    </changeSet>
+
+</databaseChangeLog>

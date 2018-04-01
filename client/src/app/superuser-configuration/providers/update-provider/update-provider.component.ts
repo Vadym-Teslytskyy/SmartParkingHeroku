@@ -4,6 +4,8 @@ import {ActivatedRoute} from '@angular/router';
 import {Provider} from '../../../model/view/provider';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProviderRequest} from '../add-provider/provider-request';
+import {HttpResponse} from '@angular/common/http';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
     selector: 'app-update-provider',
@@ -28,8 +30,10 @@ export class UpdateProviderComponent implements OnInit {
     buildingControl: FormControl = new FormControl('', [
         Validators.required, Validators.pattern('^\\d+[a-zA-Z]{0,1}$')
     ]);
+    activeControl: FormControl = new FormControl('', [Validators.required]);
 
     constructor(private providerService: ProviderService,
+                private snackBar: MatSnackBar,
                 private formBuilder: FormBuilder,
                 private route: ActivatedRoute) {
     }
@@ -40,21 +44,23 @@ export class UpdateProviderComponent implements OnInit {
             name: this.nameControl,
             city: this.cityControl,
             street: this.streetControl,
-            building: this.buildingControl
+            building: this.buildingControl,
+            active: this.activeControl
         });
     }
 
     getProvider() {
         const id = parseInt(this.route.snapshot.paramMap.get('id'));
-        console.log(id);
         this.providerService.getDetail(id).subscribe(provider => this.provider = provider);
     }
 
     updateProvider(): void {
         this.providerRequest = this.providerForm.value;
-        const id = this.route.snapshot.paramMap.get('id');
-        this.providerService.update(id, this.providerRequest).subscribe(data => {
-            alert("Provider was updated successfully!");
+        this.providerRequest.id = parseInt(this.route.snapshot.paramMap.get('id'));
+        this.providerService.save(this.providerRequest).subscribe((response: HttpResponse<any>) => {
+            this.snackBar.open('Provider updated sucsessfully.', null, {
+                duration: 2000
+            });
         });
     }
 }

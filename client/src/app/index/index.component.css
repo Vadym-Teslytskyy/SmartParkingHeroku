@@ -1,0 +1,19 @@
+.parent {
+    /*background-color: rgb(252, 252, 252);*/
+    z-index: 1030;
+}
+
+.filter {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.progress-bar {
+    margin-bottom: 10px;
+}
+
+app-parking-list {
+    height: 100%;
+}

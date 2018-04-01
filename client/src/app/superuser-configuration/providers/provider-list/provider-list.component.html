@@ -1,49 +1,75 @@
 <h3 class="text-center">Providers list:</h3>
-<div class="row">
-    <div class="col-md-3">
+<div class="parent row">
+    <div class="offset-11">
+        <a routerLink="/configuration/provider/add" class="float" mat-fab>
+            <mat-icon color="primary">add</mat-icon>
+        </a>
+    </div>
+    <div class="col-md-12">
         <ul>
-            <div>Filtering:</div>
-            <p>By state: <input type="hidden" value="tr"></p>
+            <div *ngFor="let provider of providers">
+                <mat-card class="card offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image">
+                            <mat-icon>local_parking</mat-icon>
+                        </div>
+                        <div style="min-width: 70%;">
+                            <div>
+                                <mat-card-title>{{provider.city}}, {{provider.street}} street, {{provider.building}}
+                                </mat-card-title>
+                                <mat-card-subtitle>{{provider.name}}</mat-card-subtitle>
+                            </div>
+                        </div>
+                        <div style="width: 100%"></div>
+                    </mat-card-header>
+
+                    <mat-card-actions align="right">
+                        <button mat-button routerLink='{{provider.id}}' color="primary">MORE INFO</button>
+                        <button mat-button routerLink="/configuration/provider/update/{{provider.id}}" color="warn">
+                            EDIT
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+                <hr/>
+            </div>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="filter offset-1 col-md-10">
+        <mat-divider style="border-color: purple;"></mat-divider>
+        <mat-card class="card">
             <form class="example-form" [formGroup]="providerFilterForm" (ngSubmit)="getProviders()">
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Company name" formControlName="companyName">
-                </mat-form-field>
-                <hr class="hr-red"/>
-                <div class="radio">
-                    <label><input formControlName="active" type="radio" value="true"> Active</label>
-                </div>
-                <div class="radio">
-                    <label><input formControlName="active" type="radio" value="false"> Non active</label>
-                </div>
-                <div class="radio disabled">
-                    <label><input formControlName="active" type="radio" value="null"> All</label>
+                <div class="row">
+                    <mat-form-field class="col-md-3">
+                        <input matInput placeholder="Company name" formControlName="companyName">
+                    </mat-form-field>
+                    <div class="col-md-2">
+                        <label><input formControlName="active" type="radio" value="true"> Active</label>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="radio">
+                            <label><input formControlName="active" type="radio" value="false"> Non active</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="radio disabled">
+                            <label><input formControlName="active" type="radio" value="all"> All</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div *ngIf="providers">
+                            <h5>Found {{providers.length}} matches.</h5>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
+                    <div class="offset-5 col-6">
                         <button mat-raised-button color="primary" class="mt-5">Search</button>
                     </div>
                 </div>
             </form>
-        </ul>
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-6">
-        <ul>
-            <div *ngFor="let provider of providers">
-                <ngb-alert type="dark" [dismissible]="false">
-                    <h3><b><i>Name: </i></b>{{provider.name}}</h3>
-                    <p><b><i>ID:</i></b> {{provider.id}}</p>
-                    <p><b><i>Address: </i></b>{{provider.city}} / {{provider.street}} / {{provider.building}}</p>
-                    <div>
-                        <button mat-raised-button routerLink='{{provider.id}}' color="primary" class="mt-1 full-width">More info</button>
-                    </div>
-                </ngb-alert>
-            </div>
-        </ul>
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-1">
-        <button mat-raised-button routerLink='/configuration/provider/add' color="primary" class="mt-5 full-width">Add provider</button>
+
+        </mat-card>
     </div>
 </div>
-

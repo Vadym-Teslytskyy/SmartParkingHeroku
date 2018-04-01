@@ -1,12 +1,13 @@
-#clientImage {
-    max-height: 5em;
-}
-
-td {
-    min-width: 35em;
-}
-
-#aInfo {
+.button {
     display: block;
-    margin-top: 40%;
+    margin: 2%;
+    color: #54456f;
+}
+
+#clientItem {
+    margin: 3%;
+}
+
+.mat-button {
+    font-size: 12px;
 }

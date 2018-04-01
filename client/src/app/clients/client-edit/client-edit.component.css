@@ -1,21 +1,11 @@
 .container-style {
     font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    margin-top: 15%;
+    margin-top: 5%;
 }
+
 .heading {
     margin-bottom: 5%;
-}
-.submit {
-    margin-top: 2%;
-}
-.registration {
-    margin-top: 10%;
-}
-.customwidth {
-    width: 100%;
-}
-.cursor {
-    cursor: pointer;
+    font-size: 1.4em;
 }
 
 .mat-form-field {
@@ -26,22 +16,23 @@ input {
     margin: 1%;
 }
 
-h5 {
+h6 {
     margin-top: 3%;
     margin-left: auto;
     margin-right: auto;
-    color:green;
+    color: darkred;
 }
 
-#aBack{
+#aBack {
     display: block;
-    margin-left: 40%;
+    margin-left: 38%;
     margin-top: 5%;
-    color: green;
 }
 
-button{
-    color: orangered;
+.mat-form-field{
+    font-size: 0.8em;
 }
+
+
 
 

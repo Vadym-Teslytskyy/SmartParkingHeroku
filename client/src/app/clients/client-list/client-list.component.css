@@ -1,29 +1,10 @@
-input {
-    min-width: 70%;
-    position: relative;
-    left: 88%;
-    text-align: center;
-}
-
-h1 {
-    position: relative;
-    left: 104%;
-    font-family: Candara;
-}
-
-button {
-    color: green;
-    display: inline;
-    margin-bottom: 2%;
-}
-
-#buttons {
-    min-width: 150%;
+.button {
     display: block;
-    margin-left: 63%;
+    margin: 2%;
+    color: #54456f;
 }
 
-div {
-    display: block;
-    margin-top: 5%;
+.pagination {
+    margin-left: auto;
+    margin-right: auto;
 }

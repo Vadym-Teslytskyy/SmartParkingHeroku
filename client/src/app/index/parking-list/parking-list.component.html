@@ -1,14 +1,49 @@
-<h3 class="text-center">Parkings list:</h3>
-<ul *ngFor="let parking of filteredParkings">
-    <div>
-        <ngb-alert type="dark" [dismissible]="false">
-            <h3><b><i>Address: </i></b>state {{parking.addressDto.state}}, city {{parking.addressDto.city}}, street
-                {{parking.addressDto.street}}, number {{parking.addressDto.buildingNumber}}</h3>
-            <p><b><i>Provider name:</i></b> {{parking.providerDto.name}}</p>
-            <p><b><i>Price:</i></b> {{parking.price}}</p>
-            <div>
-                <a class="btn btn-success" routerLink="/parkingdetail/{{parking.id}}">More Info</a>
-            </div>
-        </ngb-alert>
+<div class="container-fluid">
+    <div *ngFor="let parking of parkings">
+        <mat-card class="card offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10">
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image">
+                    <mat-icon>local_parking</mat-icon>
+                </div>
+                <div style="min-width: 70%;">
+                    <div>
+                        <mat-card-title>{{parking.providerName}}</mat-card-title>
+                        <mat-card-subtitle>{{parking.city}}, {{parking.street}} street, {{parking.building}}
+                        </mat-card-subtitle>
+                    </div>
+                </div>
+                <div style="width: 100%"></div>
+                <mat-icon style="color: #1e7e34">attach_money</mat-icon>
+                <p style="font-size: 18px;">{{parking.price}}</p>
+            </mat-card-header>
+
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item>
+                        <mat-icon color="warn" style="margin-right: 15px"
+                                  matTooltip="See location on the map!"
+                                  (click)="showOnMap(parking.latitude, parking.longitude)">place
+                        </mat-icon>
+                        <span> {{parking.latitude}}, {{parking.longitude}}.  </span>
+                        <span>Parking is {{round(parking.distance)}} meters away.</span>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>
+                        <mat-icon color="primary" style="margin-right: 15px">directions_car</mat-icon>
+                        <span> Spots count: {{parking.availableSpotsCount}} / {{parking.spotsCount}} </span>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>
+                        <mat-icon color="accent" style="margin-right: 15px">star</mat-icon>
+                        <span> {{parking.favoritesCount}} drivers added to favorite</span>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                </mat-list>
+            </mat-card-content>
+            <mat-card-actions align="right">
+                <button mat-button color="primary" (click)="onMoreInfoClick(parking.id)">MORE INFO</button>
+            </mat-card-actions>
+        </mat-card>
     </div>
-</ul>
+    <mat-divider style="margin-bottom: 240px; border-color: rgb(230, 230, 230)"></mat-divider>
+</div>

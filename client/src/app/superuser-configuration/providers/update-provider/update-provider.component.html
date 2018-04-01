@@ -1,5 +1,6 @@
 <div class="container-fluid">
     <legend>Update provider</legend>
+    <div *ngIf="provider">
     <form class="example-form" [formGroup]="providerForm" (ngSubmit)="updateProvider()">
         <mat-form-field class="example-full-width">
             <input matInput [(ngModel)]="provider.name" placeholder="Company name" formControlName="name">
@@ -38,10 +39,21 @@
                         </mat-error>
                     </mat-form-field>
                 </td>
+                <td>
+                    <div class="radio">
+                        <label><input [(ngModel)]='provider.active' formControlName="active" type="radio" value="true">
+                            Active</label>
+                    </div>
+                    <div class="radio">
+                        <label><input [(ngModel)]='provider.active' formControlName="active" type="radio" value="false">
+                            Non active</label>
+                    </div>
+                </td>
             </tr>
         </table>
         <div class="row offset-5 submit">
-            <button mat-button class="btn btn-success" [disabled]="!providerForm.valid">Submit</button>
+            <button mat-button class="btn btn-success" [disabled]="!providerForm.valid">Save</button>
         </div>
     </form>
+    </div>
 </div>

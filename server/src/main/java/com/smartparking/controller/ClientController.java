@@ -1,17 +1,14 @@
 package com.smartparking.controller;
 
-import com.smartparking.model.request.RegistrationClientRequest;
 import com.smartparking.entity.Client;
-import com.smartparking.entity.Role;
 import com.smartparking.entity.Provider;
+import com.smartparking.entity.Role;
 import com.smartparking.model.request.ClientRequest;
-import com.smartparking.model.response.ClientDetailResponse;
-import com.smartparking.model.response.ClientItemResponse;
-import com.smartparking.model.response.ProviderDetailResponse;
-import com.smartparking.model.response.ProviderItemResponse;
+import com.smartparking.model.response.*;
 import com.smartparking.service.ClientService;
 import com.smartparking.service.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/clients")
 public class ClientController {
 
     @Autowired
@@ -33,9 +31,8 @@ public class ClientController {
     @Autowired
     ProviderService providerService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("clients")
-    List<ClientItemResponse> findAllClients() {
+    @GetMapping("")
+    List<ClientItemResponse> getAllClients() {
         List<Client> clients = clientService.findAll();
         List<ClientItemResponse> clientItemResponses = new ArrayList<>();
         for (Client client : clients) {
@@ -44,9 +41,9 @@ public class ClientController {
         return clientItemResponses;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("clients/clientslimit")
-    List<ClientItemResponse> findLimitNumberOfClients() {
+
+    @GetMapping("/clientslimit")
+    List<ClientItemResponse> getLimitNumberOfClients() {
         List<Client> clients = clientService.findLimitNumberOfClients(new PageRequest(0, 50));
         List<ClientItemResponse> clientItemResponses = new ArrayList<>();
         for (Client client : clients) {
@@ -55,36 +52,32 @@ public class ClientController {
         return clientItemResponses;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("clients/{id}")
-    ClientDetailResponse getClientsDetail(@PathVariable Long id) {
+
+    @GetMapping("/{id}")
+    ClientDetailResponse getClientDetails(@PathVariable Long id) {
         Client client = clientService.findById(id);
         return ClientDetailResponse.of(client);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/clients/update/{id}")
+    @PostMapping("/update/{id}")
     ResponseEntity updateClient(@PathVariable Long id, @RequestBody ClientRequest clientRequest) {
-        if (clientRequest.getFirstName() != "" && clientRequest.getLastName() != "" &&
-                clientRequest.getEmail() != "" && clientRequest.getRole() != "") {
+        if (!clientRequest.getFirstName().equals("") && !clientRequest.getLastName().equals("") &&
+                !clientRequest.getEmail().equals("")) {
             clientService.updateFromRequest(id, clientRequest);
             return new ResponseEntity(HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NO_CONTENT.valueOf("Bad data input."));
+            return new ResponseEntity<>("Empty data input.", HttpStatus.NO_CONTENT);
         }
     }
 
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("clients/findprovider/{id}")
-    ProviderDetailResponse findProviderById(@PathVariable Long id) {
+    @GetMapping("/findprovider/{id}")
+    ProviderDetailResponse getProviderById(@PathVariable Long id) {
         Provider provider = providerService.findProviderByClientId(id);
         return ProviderDetailResponse.of(provider);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("clients/findclients/{input}")
-    List<ClientItemResponse> findClientsByAnyMatch(@PathVariable String input) {
+    @GetMapping("/findclients/{input}")
+    List<ClientItemResponse> getClientsByAnyMatch(@PathVariable String input) {
         if (input != "") {
             List<Client> clients = clientService.findClientsByAnyMatch(input);
             List<ClientItemResponse> clientItemResponses = new ArrayList<>();
@@ -92,12 +85,21 @@ public class ClientController {
                 clientItemResponses.add(ClientItemResponse.of(client));
             }
             return clientItemResponses;
-        } else return findAllClients();
+        } else return getAllClients();
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("clients/getproviders")
-    List<ProviderItemResponse> findAllProviders() {
+    @GetMapping("/findbyrole/{input}")
+    List<ClientItemResponse> getClientsByRole(@PathVariable String input) {
+        List<Client> clients = clientService.findClientsByRole(input);
+        List<ClientItemResponse> clientItemResponses = new ArrayList<>();
+        for (Client client : clients) {
+            clientItemResponses.add(ClientItemResponse.of(client));
+        }
+        return clientItemResponses;
+    }
+
+    @GetMapping("/getproviders")
+    List<ProviderItemResponse> getAllProviders() {
         List<Provider> providers = providerService.findAll();
         List<ProviderItemResponse> providerItemResponses = new ArrayList<>();
         for (Provider provider : providers) {
@@ -105,31 +107,4 @@ public class ClientController {
         }
         return providerItemResponses;
     }
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String saveUser(@RequestBody RegistrationClientRequest regClient) {
-        Client client = new Client();
-        client.setEmail(regClient.getEmail());
-        client.setPassword(bcryptEncoder.encode(regClient.getPassword()));
-        client.setFirstName(regClient.getFirstname());
-        client.setLastName(regClient.getLastname());
-        client.setRole(String.valueOf(Role.DRIVER));
-        clientService.save(client);
-        return "registration successful";
-    }
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("clients/findclientsbyrole/{input}")
-    List<ClientItemResponse> findClientsByRole(@PathVariable String input) {
-        if (input != "") {
-            List<Client> clients = clientService.findClientsByRole(input);
-            List<ClientItemResponse> clientItemResponses = new ArrayList<>();
-            for (Client client : clients) {
-                clientItemResponses.add(ClientItemResponse.of(client));
-            }
-            return clientItemResponses;
-        } else return findAllClients();
-    }
-
 }

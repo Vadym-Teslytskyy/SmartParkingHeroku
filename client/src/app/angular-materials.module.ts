@@ -1,40 +1,57 @@
-import {NgModule} from "@angular/core";
+import {NgModule} from '@angular/core';
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule,} from '@angular/platform-browser/animations';
 import {
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
     MatButtonModule,
-    MatToolbarModule,
+    MatCardModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatProgressBarModule,
+    MatSelectModule,
+    MatSnackBarModule,
     MatTabsModule,
-    MatSelectModule
+    MatToolbarModule,
+    MatTooltipModule,
 } from '@angular/material';
 
 
 @NgModule({
     imports: [
         BrowserAnimationsModule,
-        NoopAnimationsModule,
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
         MatButtonModule,
         MatToolbarModule,
         MatTabsModule,
-        MatSelectModule
+        MatSelectModule,
+        MatCardModule,
+        MatSnackBarModule,
+        MatListModule,
+        MatProgressBarModule,
+        MatListModule,
+        MatTooltipModule,
+        MatDialogModule,
     ],
     exports: [
         BrowserAnimationsModule,
-        NoopAnimationsModule,
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
         MatButtonModule,
         MatToolbarModule,
         MatTabsModule,
-        MatSelectModule
+        MatSelectModule,
+        MatCardModule,
+        MatSnackBarModule,
+        MatListModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatListModule,
+        MatProgressBarModule
     ]
 })
 export class AngularMaterialsModule {

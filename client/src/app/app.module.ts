@@ -1,15 +1,21 @@
-
 import {BrowserModule} from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
-import {MAT_LABEL_GLOBAL_OPTIONS, MatButtonModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule} from '@angular/material';
+import {
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatSelectModule
+} from '@angular/material';
 
+import {CommonModule} from '@angular/common';
 import {AppComponent} from './app.component';
 import {AppNavbarHeaderComponent} from './app-navbar-header/app-navbar-header.component';
 import {ParkingListComponent} from './index/parking-list/parking-list.component';
 import {ParkingService} from './parking.service';
-import {GeoLocationService} from './geo-location.service';
 import {ManagerParkingService} from './manager/manager-parking.service';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -31,16 +37,36 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RegistrationComponent} from './auth/registration/registration.component';
 import {AngularMaterialsModule} from './angular-materials.module';
 import {IndexComponent} from './index/index.component';
-import {ParkingListFilter} from './index/parking-list-filter/parking-list-filter.component';
+import {ParkingListFilterComponent} from './index/parking-list-filter/parking-list-filter.component';
 import {ManagerParkingConfigureComponent} from './manager/manager-parking-configure/manager-parking-configure.component';
 import {ManagerParkingListComponent} from './manager/manager-parking-list/manager-parking-list.component';
-import {LoginService} from "./auth/login/login.service";
-import {Interceptor} from "./app.interceptor";
-import {RegistrationService} from "./auth/registration/registration.service";
-import {TokenStorage} from "./auth/login/token-storage";
-import { UpdateProviderComponent } from './superuser-configuration/providers/update-provider/update-provider.component';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
+import {InterceptorService} from "./interceptor.service";
+import {AgmCoreModule} from '@agm/core';
+import {LoginService} from './auth/login/login.service';
+import {RegistrationService} from './auth/registration/registration.service';
+import {TokenStorage} from './auth/token/token-storage';
+import {LocationFieldComponent} from './index/parking-list-filter/location-field/location-field.component';
+import {IpLocationService} from './service/ip-location.service';
+import {RadiusFieldComponent} from './index/parking-list-filter/radius-field/radius-field.component';
+import {MatSliderModule} from '@angular/material/slider';
+import {PriceRangeFieldComponent} from './index/parking-list-filter/price-range-field/price-range-field.component';
+import {UpdateProviderComponent} from './superuser-configuration/providers/update-provider/update-provider.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {PagerService} from './_services/pager.service';
+import {MatRadioModule} from '@angular/material/radio';
+import {DeleteConfirmationDialogComponent} from './manager/manager-parking-list/delete-confirmation-dialog/delete-confirmation-dialog.component';
+import {ClientProfileComponent} from './client-profile/client-profile.component';
+import {ClientProfileEditComponent} from './client-profile/client-profile-edit/client-profile-edit.component';
+import {ClientProfileEditPasswordComponent} from './client-profile/client-profile-edit-password/client-profile-edit-password.component';
+import {FavoritesAddConfigmDialogComponent} from './parking-detail/favorites-add-configm-dialog/favorites-add-configm-dialog.component';
+import {ParkingMapComponent} from './index/parking-map/parking-map.component';
+import {StatisticComponent} from './statistic/statistic.component';
+import {ParkingStatisticComponent} from './statistic/parking-statistic/parking-statistic.component';
+
+/*export function tokenGetter() {
+    return localStorage.getItem('access_token');
+}*/
 
 @NgModule({
     declarations: [
@@ -59,16 +85,40 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
         LoginComponent,
         RegistrationComponent,
         ProviderDetailComponent,
-        ParkingListFilter,
+        ParkingListFilterComponent,
         ManagerParkingConfigureComponent,
         ManagerParkingListComponent,
         AddProviderComponent,
         FilterPipe,
         ClientDetailComponent,
-        ParkingListFilter,
-        UpdateProviderComponent
+        LocationFieldComponent,
+        RadiusFieldComponent,
+        PriceRangeFieldComponent,
+        UpdateProviderComponent,
+        ParkingMapComponent,
+        DeleteConfirmationDialogComponent,
+        ClientProfileComponent,
+        ClientProfileEditComponent,
+        ClientProfileEditPasswordComponent,
+        FavoritesAddConfigmDialogComponent,
+        StatisticComponent,
+        ParkingStatisticComponent
     ],
     imports: [
+        /* AgmCoreModule.forRoot({
+             apiKey: 'AIzaSyDLIMvbPlry-zu4nLaSaYeAKW7Xjgum74I',
+             libraries: ['places']
+         }),*/
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyB-ceTN3C1MJaUsAjPSKdXzGr11i-Ob7xU'
+        }),
+        /*JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                whitelistedDomains: ['localhost:8080'],
+                blacklistedRoutes: []
+            }
+        }),*/
         HttpClientModule,
         BrowserModule,
         RouterModule,
@@ -77,21 +127,34 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
         ReactiveFormsModule,
         FormsModule,
         AngularMaterialsModule,
+        MatSelectModule,
+        CommonModule,
+        MatAutocompleteModule,
+        AngularMaterialsModule,
         MatDividerModule,
         MatExpansionModule,
         MatButtonModule,
-        MatProgressSpinnerModule
+        MatSliderModule,
+        MatProgressSpinnerModule,
+        MatRadioModule
     ],
+    entryComponents: [DeleteConfirmationDialogComponent, FavoritesAddConfigmDialogComponent],
     providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: InterceptorService,
+            multi: true
+        }
+        ,
         ParkingService,
         ManagerParkingService,
-        GeoLocationService,
         ProviderService,
         ClientService,
         LoginService,
-        Interceptor,
         RegistrationService,
-        TokenStorage
+        TokenStorage,
+        IpLocationService,
+        PagerService
     ],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

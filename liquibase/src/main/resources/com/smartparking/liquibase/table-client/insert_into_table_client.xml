@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Oleksiy" id="201803202047" dbms="MYSQL">
+        <sql>
+            INSERT INTO client (email ,first_name ,last_name ,password,role,provider_id) values('admin@gmail.com','Kook','Petro','$2a$10$SAChnP9jOS8P9Lv.i9KA0Oee5g5jfaSM1j2UbVm.ug0S5akXi8Ii.',2,1);
+        </sql>
+        <comment>Inserting into table client</comment>
+    </changeSet>
+
+    <changeSet author="Oleksiy" id="201803211602" dbms="MYSQL">
+        <sql>
+            INSERT INTO client  (email ,first_name ,last_name ,password,role,provider_id) values('fox@yandex.ru','Ivanov','Ivan','$2a$10$SAChnP9jOS8P9Lv.i9KA0Oee5g5jfaSM1j2UbVm.ug0S5akXi8Ii.',1,2);
+        </sql>
+        <comment>Inserting into table client</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803211603" dbms="MYSQL">
+        <sql>
+            INSERT INTO client (email ,first_name ,last_name ,password,role,provider_id) values('fox@microsoft.com','Petrov','Petro','$2a$10$SAChnP9jOS8P9Lv.i9KA0Oee5g5jfaSM1j2UbVm.ug0S5akXi8Ii.',1,3);
+        </sql>
+        <comment>Inserting into table client</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803211604" dbms="MYSQL">
+        <sql>
+            INSERT INTO client (email ,first_name ,last_name ,password,role,provider_id) values('fox@mail.ru','Sidorov','Sydor','$2a$10$SAChnP9jOS8P9Lv.i9KA0Oee5g5jfaSM1j2UbVm.ug0S5akXi8Ii.',1,4);
+        </sql>
+        <comment>Inserting into table client</comment>
+    </changeSet>
+
+</databaseChangeLog>

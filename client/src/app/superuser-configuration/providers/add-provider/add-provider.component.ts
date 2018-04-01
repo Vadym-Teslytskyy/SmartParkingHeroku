@@ -4,6 +4,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProviderRequest} from './provider-request';
 import {ActivatedRoute} from '@angular/router';
 import {Provider} from '../../../model/view/provider';
+import {HttpResponse} from '@angular/common/http';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
     selector: 'app-add-provider',
@@ -29,6 +31,7 @@ export class AddProviderComponent implements OnInit {
     ]);
 
     constructor(private providerService: ProviderService,
+                private snackBar: MatSnackBar,
                 private formBuilder: FormBuilder) {
     }
 
@@ -43,10 +46,12 @@ export class AddProviderComponent implements OnInit {
 
     saveProvider(): void {
         this.providerRequest = this.providerForm.value;
-        this.providerService.save(this.providerRequest).subscribe(data => {
-            alert('Provider added successfully.');
+        this.providerService.save(this.providerRequest).subscribe((response: HttpResponse<any>) => {
+            this.snackBar.open('Provider added sucsessfully.', null, {
+                duration: 2000
+            });
         });
         ;
     }
-    
+
 }

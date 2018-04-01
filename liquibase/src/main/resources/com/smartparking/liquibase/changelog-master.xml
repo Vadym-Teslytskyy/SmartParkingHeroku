@@ -1,0 +1,20 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <include file="com/smartparking/liquibase/table-provider/create_table_provider.xml"/>
+    <include file="com/smartparking/liquibase/table-provider/insert_into_table_provider.xml"/>
+    <include file="com/smartparking/liquibase/table-client/create_table_client.xml"/>
+    <include file="com/smartparking/liquibase/table-client/insert_into_table_client.xml"/>
+    <include file="com/smartparking/liquibase/table-parking/create_table_parking.xml"/>
+    <include file="com/smartparking/liquibase/table-spot/create_table_spot.xml"/>
+    <include file="com/smartparking/liquibase/table-favorite/create_table_favorite.xml"/>
+    <include file="com/smartparking/liquibase/table-event/create_table_event.xml"/>
+    <include file="com/smartparking/liquibase/table-parking/insert_into_table_parking.xml"/>
+    <include file="com/smartparking/liquibase/table-spot/insert_into_table_spot.xml"/>
+    <include file="com/smartparking/liquibase/table-favorite/insert_into_table_favorite.xml"/>
+    <include file="com/smartparking/liquibase/table-event/insert_into_table_event.xml"/>
+    <include file="com/smartparking/liquibase/function/create_function_location_distance.xml"/>
+    <include file="com/smartparking/liquibase/table-client/alter_table_client_added_column_image.xml"/>
+</databaseChangeLog>

@@ -1,0 +1,25 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Oleksiy" id="201803202054" dbms="MYSQL">
+        <sql>
+            CREATE TABLE IF NOT EXISTS parking
+            (
+            id bigint(20) NOT NULL  AUTO_INCREMENT,
+            latitude double NOT NULL,
+            longitude double NOT NULL,
+            price decimal(19,2) NOT NULL,
+            token varchar(255) NOT NULL,
+            city varchar(255) NOT NULL,
+            street varchar(255) NOT NULL,
+            building varchar(255) NOT NULL,
+            provider_id  bigint(20)NOT NULL,
+            CONSTRAINT Parking_pkey PRIMARY KEY (id),
+            constraint fk_between_parking_and_provider foreign key (provider_id) references provider(id));
+        </sql>
+        <comment>Creating table parking</comment>
+    </changeSet>
+
+</databaseChangeLog>

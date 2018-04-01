@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginData} from "./login-data";
 import {Router} from "@angular/router";
-import {ResponseToken} from "./response-token";
+import {Token} from "../token/token";
 import {LoginService} from "./login.service";
-import {TokenStorage} from "./token-storage";
+import {TokenStorage} from "../token/token-storage";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,6 @@ export class LoginComponent implements OnInit {
     hide: boolean = true;
     loginForm: FormGroup;
     loginData: LoginData;
-    error: boolean;
 
     emailControl: FormControl = new FormControl('', [
         Validators.required,
@@ -29,8 +29,7 @@ export class LoginComponent implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
                 private loginService: LoginService,
-                private router: Router,
-                private storage: TokenStorage
+                private router: Router
     ) {}
 
     ngOnInit() {
@@ -40,19 +39,20 @@ export class LoginComponent implements OnInit {
         });
     }
 
+
     login = () => {
         this.loginData = this.loginForm.value;
         this.loginService.signIn(this.loginData)
-            .subscribe((response:ResponseToken)=>{
-                    this.error=false;
-                    this.storage.saveCredentials(response.token, response.role);
-                    alert("Succesful authentifictaon" + response.token + "  " + response.role)
-                    this.router.navigate(['/']);
-                }, error2 => {
-                    console.log("error");
-                    this.error = true;
+            .subscribe((token: Token)=>{
+                 TokenStorage.saveToken(token.token);
+                alert('You are successfully authorized');
+                this.router.navigate(['/']);
+                }, (error) => {
+                if(error instanceof HttpErrorResponse)
+                alert(error.error.response);
                 }
             );
     };
-
 }
+
+

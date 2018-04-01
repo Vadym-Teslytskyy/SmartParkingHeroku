@@ -1,0 +1,14 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Ivan" id="201803302045" dbms="MYSQL">
+        <sql>
+            ALTER TABLE client
+            ADD COLUMN image LONGBLOB NULL DEFAULT NULL AFTER provider_id;
+        </sql>
+        <comment>Creating table Client</comment>
+    </changeSet>
+
+</databaseChangeLog>

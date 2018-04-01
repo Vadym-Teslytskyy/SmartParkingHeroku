@@ -4,4 +4,5 @@ export class ProviderRequest {
     city: string;
     street: string;
     building: string;
+    active: boolean;
 }

@@ -26,9 +26,9 @@ export class ProviderDetailComponent implements OnInit {
             .subscribe(provider => this.provider = provider);
     }
 
-    changeState(): void {
+    /*changeState(): void {
         const id = +this.route.snapshot.paramMap.get('id');
         this.providerService.changeState(id)
             .subscribe(provider => this.provider = provider);
-    }
+    }*/
 }

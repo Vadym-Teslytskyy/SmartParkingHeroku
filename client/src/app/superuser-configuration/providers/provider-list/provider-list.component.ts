@@ -12,9 +12,10 @@ import {FormControl, FormGroup,} from '@angular/forms';
 export class ProviderListComponent implements OnInit {
     providers: Provider[];
     providerFilterForm = new FormGroup({
-        active: new FormControl('null', []),
+        active: new FormControl('all', []),
         companyName: new FormControl('', [])
     });
+
     providerFilter: ProviderListFilterParameters;
 
     constructor(private providerService: ProviderService) {

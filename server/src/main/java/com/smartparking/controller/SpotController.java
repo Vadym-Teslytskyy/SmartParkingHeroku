@@ -1,10 +1,9 @@
 package com.smartparking.controller;
 
-import com.smartparking.dto.SpotDto;
 import com.smartparking.entity.Spot;
+import com.smartparking.model.response.SpotResponse;
 import com.smartparking.service.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,35 +14,37 @@ import java.util.List;
 @RestController
 public class SpotController {
 
-    @Autowired
-    SpotService spotService;
+    private final SpotService spotService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping("parkingdetail/{id}/spots")
-    List<SpotDto> findAllSpotsDto (@PathVariable Long id){
-        List<Spot> allSpots = spotService.findAllSpotsByParkingId(id);
-        List<Spot> freeSpots = spotService.findAllAvailableSpotsByParkingId(id);
-        List<SpotDto> spotDtoList = new ArrayList<>();
-        for (Spot spot : allSpots) {
-            SpotDto spotDto = new SpotDto();
-            spotDto.setId(spot.getId());
-            spotDto.setIsFree(freeSpots.contains(spot));
-            spotDtoList.add(spotDto);
-        }
-        return spotDtoList;
+    @Autowired
+    public SpotController(SpotService spotService) {
+        this.spotService = spotService;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping("parkingdetail/{id}/freespots")
-    List<SpotDto> findAvailableSpotsDto (@PathVariable Long id){
+    @RequestMapping("parkingdetail/{id}/spots")
+    List<SpotResponse> findAllSpotsDto(@PathVariable Long id) {
+        List<Spot> allSpots = spotService.findAllSpotsByParkingId(id);
         List<Spot> freeSpots = spotService.findAllAvailableSpotsByParkingId(id);
-        List<SpotDto> spotDtoList = new ArrayList<>();
-        for (Spot spot : freeSpots) {
-            SpotDto spotDto = new SpotDto();
-            spotDto.setId(spot.getId());
-            spotDto.setIsFree(true);
-            spotDtoList.add(spotDto);
+        List<SpotResponse> spotResponseList = new ArrayList<>();
+        for (Spot spot : allSpots) {
+            SpotResponse spotResponse = new SpotResponse();
+            spotResponse.setId(spot.getId());
+            spotResponse.setIsFree(freeSpots.contains(spot));
+            spotResponseList.add(spotResponse);
         }
-        return spotDtoList;
+        return spotResponseList;
+    }
+
+    @RequestMapping("parkingdetail/{id}/freespots")
+    List<SpotResponse> findAvailableSpotsDto(@PathVariable Long id) {
+        List<Spot> freeSpots = spotService.findAllAvailableSpotsByParkingId(id);
+        List<SpotResponse> spotResponseList = new ArrayList<>();
+        for (Spot spot : freeSpots) {
+            SpotResponse spotResponse = new SpotResponse();
+            spotResponse.setId(spot.getId());
+            spotResponse.setIsFree(true);
+            spotResponseList.add(spotResponse);
+        }
+        return spotResponseList;
     }
 }
