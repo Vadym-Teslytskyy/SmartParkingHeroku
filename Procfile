@@ -1,1 +1,1 @@
-web: java -D server.port=$PORT -jar target/sms-0.0.1-SNAPSHOT.jar
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.war
