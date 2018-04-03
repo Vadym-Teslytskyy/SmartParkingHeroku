@@ -1,0 +1,165 @@
+<div class="container-fluid" *ngIf="!parking" class="text-center">
+    <div class="row mx-auto mt-3 center-block">
+        <div class="col-6 mx-auto my-auto text-center">
+            <mat-spinner mode="indeterminate" style="margin-left: 35%;"></mat-spinner>
+        </div>
+    </div>
+</div>
+<div *ngIf="parking">
+    <mat-card class="card col-sm-12 col-md-12 col-lg-12 mt-3">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image">
+                <mat-icon>local_parking</mat-icon>
+            </div>
+            <div style="min-width: 70%;">
+                <div>
+                    <h5>
+                        <b>
+                            <i>Address: </i>
+                        </b>{{parking.address}}</h5>
+                    <mat-card-subtitle>Provider: {{parking.providerName}}</mat-card-subtitle>
+                </div>
+            </div>
+            <div style="width: 100%"></div>
+            <mat-icon style="color: #1e7e34">attach_money</mat-icon>
+            <p style="font-size: 18px;">{{parking.price}}</p>
+        </mat-card-header>
+
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item>
+                    <mat-icon color="warn" style="margin-right: 15px" (click)="showOnMap(parking.latitude, parking.longitude)">place
+                    </mat-icon>
+                    <span> {{parking.latitude}}, {{parking.longitude}}</span>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <div class="col-4">
+                        <span style="font-size:18px;"><b><i>Add to favorites</i></b></span>
+                        <button mat-icon-button color="warn" (click)="onParkingAddToFavoritesClick()">
+                        <mat-icon>star_rate</mat-icon>
+                    </button>
+                </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <div class="col-8">
+                        <h5>
+                            <b>
+                                <i>Spots: </i>
+                            </b> General: {{parking.spotsCount}} / Available: {{parking.availableSpotsCount}}
+                        </h5>
+                    </div>
+                    <div class="col-2 ml-auto">
+                        <button mat-raised-button color="primary" (click)="refresh()">Refresh
+                            <i class="material-icons">&#xE863;</i>
+                        </button>
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <div class="col-8">
+                        <h5>
+                            <b>
+                                <i>Fullness: </i>
+                            </b>
+                        </h5>
+                    </div>
+                </mat-list-item>
+                <mat-list-item>
+                    <ngb-progressbar [type]="type" [value]="value" [max]="max" style="width:100%; height:0.7em;">
+                        <b>{{fullnessBarMessage}} {{parking.availableSpotsCount}} spot(s) left!</b>
+                    </ngb-progressbar>
+                </mat-list-item>
+
+
+                <mat-divider></mat-divider>
+            </mat-list>
+        </mat-card-content>
+        <mat-card-actions align="center">
+            <ngb-accordion>
+                <ngb-panel id="preventchange-1">
+                    <ng-template ngbPanelTitle>
+                        <div>
+                            <h5>
+                                <b> Show all spots</b>
+                            </h5>
+                        </div>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <ngb-tabset justify="justified">
+                            <ngb-tab>
+                                <ng-template ngbTabTitle>
+                                    <div>
+                                        <b>Show all spots</b>
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbTabContent>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th scope="col">Spot number #</th>
+                                                <th scope="col">Availability</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let spot of spots" class="text-center">
+                                                <th scope="row">{{spot.id}}</th>
+
+                                                <td scope="row" *ngIf="!!spot.isFree; else busy">
+                                                    <button type="button" class="btn btn-sm btn-success" disabled>
+                                                        Available
+                                                    </button>
+                                                </td>
+
+                                                <ng-template #busy>
+                                                    <td scope="row">
+                                                        <button type="button" class="btn btn-sm btn-secondary" disabled>
+                                                            Not Available
+                                                        </button>
+                                                    </td>
+                                                </ng-template>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </ng-template>
+                            </ngb-tab>
+                            <ngb-tab>
+                                <ng-template ngbTabTitle>
+                                    <div>
+                                        <b>Show only available spots</b>
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbTabContent>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th scope="col">Spot number #</th>
+                                                <th scope="col">Availability</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let spot of freeSpots" class="text-center">
+                                                <th scope="row">{{spot.id}}</th>
+
+                                                <td scope="row">
+                                                    <button type="button" class="btn btn-sm btn-success" disabled>
+                                                        Available
+                                                    </button>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </ng-template>
+                            </ngb-tab>
+                        </ngb-tabset>
+
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </mat-card-actions>
+    </mat-card>
+
+
+</div>

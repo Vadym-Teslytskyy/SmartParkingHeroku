@@ -1,0 +1,67 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.example-container > * {
+    width: 100%;
+}
+
+.example-container form {
+    margin-bottom: 20px;
+}
+
+.example-container form > * {
+    margin: 5px 0;
+}
+
+.example-container .mat-radio-button {
+    margin: 0 5px;
+}
+
+.hr-red {
+    margin-bottom: 50px;
+    background-color: blueviolet;
+}
+
+.example-radio-group {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.example-radio-button {
+    margin: 5px;
+}
+
+.example-selected-value {
+    margin: 15px 0;
+}
+
+.parent {
+    /*background-color: rgb(252, 252, 252);*/
+    z-index: 1030;
+}
+
+.filter {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.progress-bar {
+    margin-bottom: 10px;
+}
+
+app-parking-list {
+    height: 100%;
+}
+
+.float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+}
+

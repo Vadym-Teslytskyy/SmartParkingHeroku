@@ -1,0 +1,44 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Oleksiy" id="201803202016" dbms="MYSQL">
+        <sql>
+            INSERT INTO provider (active,name ,city,street,building) values(1,'ParkingCom','Lviv','Horodotska','181');
+        </sql>
+        <comment>Inserting data</comment>
+    </changeSet>
+
+    <changeSet author="Oleksiy" id="201803202030" dbms="MYSQL">
+        <sql>
+            INSERT INTO provider (active,name ,city,street,building) values(1,'TernParking','Ternopil','Zelena','81');
+        </sql>
+        <comment>Inserting data</comment>
+    </changeSet>
+
+    <changeSet author="Oleksiy" id="201803211557" dbms="MYSQL">
+        <sql>
+            INSERT INTO provider (active,name ,city,street,building) values(1,'SoftServe','Lviv','Fedkovicha','60a');
+        </sql>
+        <comment>Inserting data</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803211558" dbms="MYSQL">
+        <sql>
+            INSERT INTO provider (active,name ,city,street,building) values(1,'Microsoft','USA','USA','10');
+        </sql>
+        <comment>Inserting data</comment>
+    </changeSet>
+
+    <changeSet author="Oleksiy" id="201803211559" dbms="MYSQL">
+        <sql>
+            INSERT INTO provider (active,name ,city,street,building) values(1,'Google','USA','USA','7');
+        </sql>
+        <comment>Inserting data</comment>
+    </changeSet>
+
+
+
+</databaseChangeLog>

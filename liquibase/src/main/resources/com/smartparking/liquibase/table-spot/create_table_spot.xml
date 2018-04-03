@@ -1,0 +1,18 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Oleksiy" id="201803202114" dbms="MYSQL">
+        <sql>
+            CREATE TABLE IF NOT EXISTS spot
+            (
+            id bigint(20) NOT NULL  AUTO_INCREMENT,
+            parking_id  bigint(20) NOT NULL,
+            CONSTRAINT Spot_pkey PRIMARY KEY (id),
+            constraint fk_between_Spot_and_parking foreign key (parking_id) references parking(id));
+        </sql>
+        <comment>Creating table Client</comment>
+    </changeSet>
+
+</databaseChangeLog>

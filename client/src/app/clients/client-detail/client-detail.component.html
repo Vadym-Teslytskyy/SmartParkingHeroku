@@ -1,0 +1,37 @@
+<div>
+    <br/>
+    <br/>
+    <mat-card class="card offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10">
+        <mat-card-header>
+            <div style="min-width: 70%;">
+                <div>
+                    <mat-card-title><span>ID:</span> {{client.id}}
+                    </mat-card-title>
+                    <mat-card-title id="role"><span>Role:</span> {{client.role}}
+                    </mat-card-title>
+                    <mat-card-title><span>Client name:</span> {{client.firstName}} {{client.lastName}}
+                    </mat-card-title>
+                    <mat-card-title><span>Email:</span> {{client.email}}</mat-card-title>
+                    <mat-card-title *ngIf="client.providerName!='no provider'" (click)="goToProvidersDetails()" id="prov">
+                        <span>Provider: </span>{{client.providerName}}
+                    </mat-card-title>
+                    <mat-card-title><span>Favorites parkings: </span><span
+                            *ngFor="let favoriteName of client.favoritesNames">{{favoriteName}}, </span>
+                    </mat-card-title>
+                </div>
+            </div>
+            <div style="width: 100%"></div>
+        </mat-card-header>
+
+        <mat-card-actions align="right">
+            <button mat-button (click)="goToClientsList()" color="primary">Go to clients list</button>
+            <button mat-button (click)="goToClientEditForm()" color="warn">Go to edit form</button>
+
+        </mat-card-actions>
+    </mat-card>
+</div>
+
+
+
+
+

@@ -1,0 +1,66 @@
+<div class="container-fluid container-style">
+    <div>
+        <form novalidate #clientForm="ngForm"
+              class="formstyle offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+            <h3 class="heading row offset-4">Cliet Edit Form</h3>
+
+
+            <div class="row">
+                <label for="image">Avatar</label>
+                <input type="file" id="image" accept="image/jpeg" (change)="onFileChange($event)" #fileInput>
+                <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
+            </div>
+
+
+            <div class="row">
+                <input type="text" name="firstName" [(ngModel)]="client.firstName" class="form-control" required
+                       minlength="3" placeholder="First Name">
+            </div>
+
+            <div class="row">
+                <input type="text" name="lastName" [(ngModel)]="client.lastName" class="form-control" required
+                       minlength="3" placeholder="Last Name">
+            </div>
+
+            <div class="row">
+                <input type="email" name="email" [(ngModel)]="client.email" class="form-control" readonly>
+            </div>
+
+            <div class="row"
+                 *ngIf="client.provider!='no provider' && client.role!='SUPERUSER' && client.role!='DRIVER'">
+                <h6>Current provider: {{client.provider}}</h6>
+            </div>
+
+            <div class="row">
+                <h6>Current role: <span
+                        [ngStyle]="{'color': client.role === 'SUPERUSER' ? 'Chocolate' : 'BlueViolet '}">{{client.role}}</span>
+                </h6>
+            </div>
+
+
+            <div class="row offset-5 submit">
+                <button mat-button class="btn btn-outline-primary"
+                        type="submit"
+                        [disabled]="!clientForm.valid"
+                        (click)="udateProfile()">
+                    Save
+                </button>
+                <button mat-button class="btn btn-outline-primary"
+                        (click)="goToPasswordEdit()">
+                    Edit Password
+                </button>
+            </div>
+            <a id="aBack" routerLink (click)="goToProfile()">(Back to profile)</a>
+        </form>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+

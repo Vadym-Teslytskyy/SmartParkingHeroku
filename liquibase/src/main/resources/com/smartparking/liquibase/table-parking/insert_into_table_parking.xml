@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Oleksiy" id="201803211515" dbms="MYSQL">
+        <sql>
+            INSERT INTO parking (latitude ,longitude ,price ,token,city,street,building,provider_id) values(49.827729,23.951374,50.4,'qwert','Lviv','Horodotska','224',2);
+        </sql>
+        <comment>Inserting into table parking</comment>
+    </changeSet>
+
+    <changeSet author="Oleksiy" id="201803211605" dbms="MYSQL">
+        <sql>
+            INSERT INTO parking (latitude ,longitude ,price ,token,city,street,building,provider_id) values(49.831000, 23.968800,45.4,'tgbnm','Lviv','Horodotska','249',1);
+        </sql>
+        <comment>Inserting into table parking</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803211607" dbms="MYSQL">
+        <sql>
+            INSERT INTO parking (latitude ,longitude ,price ,token,city,street,building,provider_id) values(49.822979, 23.974334,10.4,'daer','Lviv','Lubinska','98',3);
+        </sql>
+        <comment>Inserting into table parking</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803211606" dbms="MYSQL">
+        <sql>
+            INSERT INTO parking (latitude ,longitude ,price ,token,city,street,building,provider_id) values(49.807367, 23.982630,30.25,'visc','Lviv','Kulparkivska','135',4);
+        </sql>
+        <comment>Inserting into table parking</comment>
+    </changeSet>
+
+</databaseChangeLog>

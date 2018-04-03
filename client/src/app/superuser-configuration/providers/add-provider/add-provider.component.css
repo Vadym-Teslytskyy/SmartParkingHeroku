@@ -1,0 +1,29 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+    margin-top: 50px;
+}
+.container-fluid {
+    margin-top: 100px;
+}
+
+
+.example-full-width {
+    width: 100%;
+}
+.btn-success {
+    color: darkgrey;
+    background-color: #6610f2;;
+    border-color: darkgrey;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #6610f2;;
+    border-color: #1e7e34;
+}
+
+.btn-success:focus, .btn-success.focus {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}

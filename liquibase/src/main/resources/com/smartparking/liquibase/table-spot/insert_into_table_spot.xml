@@ -1,0 +1,131 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Oleksiy" id="201803211519" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(1);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803211613" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(2);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803211614" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(3);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803211615" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(4);
+        </sql>
+      <comment>Inserting into table spot</comment>
+    </changeSet>
+
+    <changeSet author="Oleksiy" id="201803221519" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(1);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803222021" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(2);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803222022" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(3);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803222023" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(4);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803222024" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(1);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803222025" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(2);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803222026" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(3);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803222027" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(4);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+    <changeSet author="Oleksiy" id="201803222028" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(1);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803222029" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(2);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803222030" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(3);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803222031" dbms="MYSQL">
+        <sql>
+            INSERT INTO spot (parking_id) values(4);
+        </sql>
+        <comment>Inserting into table spot</comment>
+    </changeSet>
+
+</databaseChangeLog>

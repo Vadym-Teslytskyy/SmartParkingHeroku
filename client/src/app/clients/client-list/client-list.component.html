@@ -1,0 +1,49 @@
+<h4 class="text-center">Clients list</h4>
+<div class="row">
+    <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="search" #searchBox id="search-box"
+                   (keyup)="findClientsFromBackEnd(searchBox.value)">
+        </mat-form-field>
+        <div>
+            <button mat-button class="button"
+                    (click)="findAllClients()">Show all clients
+            </button>
+            <button mat-button class="button"
+                    (click)="findDrivers()">Find drivers
+            </button>
+            <button mat-button class="button"
+                    (click)="findProviderManagers()">Find managers
+            </button>
+            <button mat-button class="button"
+                    (click)="findSuperusers()">Find superusers
+            </button>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <ul>
+            <app-client-item *ngFor="let client of pagedClientItems" [client]="client">
+            </app-client-item>
+            <div class="pagination">
+                <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                        <a class="page-link" (click)="setPage(1)">First</a>
+                    </li>
+                    <li class="page-item" *ngFor="let page of pager.pages"
+                        [ngClass]="{active:pager.currentPage === page}">
+                        <a class="page-link" (click)="setPage(page)">{{page}}</a>
+                    </li>
+                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
+                    </li>
+                </ul>
+            </div>
+        </ul>
+    </div>
+    <div class="col-md-2">
+        <p><b>Matches found:</b> {{allClients}}</p>
+    </div>
+</div>
+
+
+

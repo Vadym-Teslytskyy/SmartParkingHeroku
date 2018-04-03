@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Oleksiy" id="201803211520" dbms="MYSQL">
+        <sql>
+            INSERT INTO favorite (name,client_id, parking_id) values('favourite_parking',1,1);
+        </sql>
+        <comment>Inserting into table favorite</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803211610" dbms="MYSQL">
+        <sql>
+            INSERT INTO favorite (name,client_id, parking_id) values('best_parking',2,2);
+        </sql>
+        <comment>Inserting into table favorite</comment>
+    </changeSet>
+
+
+    <changeSet author="Oleksiy" id="201803211611" dbms="MYSQL">
+        <sql>
+            INSERT INTO favorite (name,client_id, parking_id) values('nice_parking',3,3);
+        </sql>
+        <comment>Inserting into table favorite</comment>
+    </changeSet>
+
+    <changeSet author="Oleksiy" id="201803211612" dbms="MYSQL">
+        <sql>
+            INSERT INTO favorite (name,client_id, parking_id) values('nice_parking',4,4);
+        </sql>
+        <comment>Inserting into table favorite</comment>
+    </changeSet>
+
+</databaseChangeLog>

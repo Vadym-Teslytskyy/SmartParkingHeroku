@@ -1,0 +1,13 @@
+.button {
+    display: block;
+    margin: 2%;
+    color: #54456f;
+}
+
+#clientItem {
+    margin: 3%;
+}
+
+.mat-button {
+    font-size: 12px;
+}

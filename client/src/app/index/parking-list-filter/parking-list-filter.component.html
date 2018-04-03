@@ -1,0 +1,27 @@
+<!--<nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">-->
+<!--<a class="navbar-brand" href="#"><h5>{{navTitle}}</h5></a>-->
+<!--<button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="isCollapsed"-->
+<!--aria-controls="navbarCollapse">-->
+<!--<span class="navbar-toggler-icon"></span>-->
+<!--</button>-->
+<!--<div class="collapse navbar-collapse" id="navbarCollapse" [ngbCollapse]="!isCollapsed">-->
+<!--<form [formGroup]="loginForm" class = "formstyle offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6">-->
+<!--<div class = "row">-->
+<!--<mat-form-property #cityInput class = "customwidth" style="width: 100%">-->
+<!--<input matInput placeholder="City" formControlName="City" [type]="hide ? 'password' : 'text'">-->
+<!--</mat-form-property>-->
+<!--</div>-->
+<!--<div class = "row">-->
+<!--<button mat-button>Submit</button>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+<!--</nav>-->
+<mat-divider style="border-color: purple;"></mat-divider>
+<mat-card class="card">
+    <form [formGroup]="formGroup">
+        <app-parking-list-filter-price-range-field #priceRangeField></app-parking-list-filter-price-range-field>
+        <app-parking-list-filter-radius-field #radiusField></app-parking-list-filter-radius-field>
+        <app-parking-list-filter-location-field #locationField></app-parking-list-filter-location-field>
+    </form>
+</mat-card>
