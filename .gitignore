@@ -11,6 +11,8 @@
 .mtj.tmp/
 
 # Package Files #
+*.jar
+*.war
 *.ear
 *.zip
 *.tar.gz
@@ -29,6 +31,7 @@ out/
 bin/
 
 #Maven
+target/
 log/
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.
