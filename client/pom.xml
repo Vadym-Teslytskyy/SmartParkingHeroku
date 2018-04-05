@@ -44,7 +44,7 @@
               <executable>ng</executable>
               <arguments>
                 <argument>build</argument>
-                <argument>--base-href=/</argument>
+                <argument>--base-href=/angular</argument>
               </arguments>
             </configuration>
             <goals>
