@@ -11,11 +11,13 @@ import {Router} from '@angular/router';
 @Injectable()
 export class InterceptorService implements HttpInterceptor {
 
+    private domenUrl = environment.apiUrl;
+
     constructor() {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (request.url.startsWith('http://localhost:8080/') && (TokenStorage.getToken())) {
+        if (request.url.startsWith(domenUrl) && (TokenStorage.getToken())) {
             request = request.clone({
                 headers: request.headers.append('Authorization', `Bearer ${TokenStorage.getToken()}`)
             });
