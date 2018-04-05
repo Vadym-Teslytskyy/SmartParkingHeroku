@@ -33,9 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${cross_origin_url}")
     private String url;
     
-    @Value("${cross_origin_url_heroku}")
-    private String herokuUrl;
-
     @Autowired
     @Qualifier("MyUserDetails")
     private UserDetailsService userService;
@@ -84,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Arrays.asList(url,herokuUrl));
+        configuration.setAllowedOrigins(Arrays.asList(url));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Credentials", "Content-Type",
                 "Access-Control-Allow-Headers", "X-Requested-With", "Origin", "Accept", "Authorization"));
