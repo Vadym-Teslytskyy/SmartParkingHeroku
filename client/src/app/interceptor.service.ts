@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import {TokenStorage} from './auth/token/token-storage';
 import {Router} from '@angular/router';
+import {environment} from '../environments/environment';
 
 @Injectable()
 export class InterceptorService implements HttpInterceptor {
@@ -17,7 +18,7 @@ export class InterceptorService implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (request.url.startsWith(domenUrl) && (TokenStorage.getToken())) {
+        if (request.url.startsWith(this.domenUrl) && (TokenStorage.getToken())) {
             request = request.clone({
                 headers: request.headers.append('Authorization', `Bearer ${TokenStorage.getToken()}`)
             });
