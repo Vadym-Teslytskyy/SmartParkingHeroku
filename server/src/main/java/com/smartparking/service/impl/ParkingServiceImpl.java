@@ -2,6 +2,7 @@ package com.smartparking.service.impl;
 
 import com.smartparking.entity.Parking;
 import com.smartparking.model.response.ParkingResponse;
+import com.smartparking.repository.FavoriteRepository;
 import com.smartparking.repository.ParkingRepository;
 import com.smartparking.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class ParkingServiceImpl extends AbstractService<Parking, Long, ParkingRe
 
     @Autowired
     private SpotService spotService;
+
+    @Autowired
+    private FavoriteRepository favoriteRepository;
 
     @Autowired
     private FavoriteService favoriteService;
@@ -52,6 +56,17 @@ public class ParkingServiceImpl extends AbstractService<Parking, Long, ParkingRe
             });
             return response;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Boolean isFavorite(String email, Long parkingId) {
+        return favoriteRepository.findByClientEmailAndParkingId(email, parkingId)
+                .isPresent();
+    }
+
+    @Override
+    public String findFavoriteNameByEmailAndParkingId(String email, Long parkingId) {
+        return favoriteRepository.findByClientEmailAndParkingId(email, parkingId).get();
     }
 
     @Override
@@ -97,5 +112,15 @@ public class ParkingServiceImpl extends AbstractService<Parking, Long, ParkingRe
         response.setLongitude(tuple.get("longitude", Double.class));
         response.setDistance(tuple.get("distance", Double.class));
         return response;
+    }
+
+    @Override
+    public List<Parking> findParkingsByCity(String input) {
+        return getRepository().findParkingsByCity(input);
+    }
+
+    @Override
+    public List<String> findParkingStreetByAnyMatch(String input) {
+        return getRepository().findParkingStreetByAnyMatch(input);
     }
 }

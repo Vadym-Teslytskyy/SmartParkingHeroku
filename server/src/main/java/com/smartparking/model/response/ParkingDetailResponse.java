@@ -17,6 +17,8 @@ public class ParkingDetailResponse {
     private String providerAddress;
     private Long spotsCount;
     private Long availableSpotsCount;
+    private Boolean isFavorite;
+    private String favoriteName;
 
     /**
      * This method don`t set numberSpots and numberAvailableSpots values please set its after using this method

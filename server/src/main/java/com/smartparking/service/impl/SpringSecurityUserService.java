@@ -3,7 +3,6 @@ package com.smartparking.service.impl;
 import com.smartparking.entity.Client;
 import com.smartparking.entity.Role;
 import com.smartparking.entity.SpringSecurityUser;
-import com.smartparking.entity.SpringSecurityUser;
 import com.smartparking.model.request.PasswordRequest;
 import com.smartparking.model.request.RegistrationRequest;
 import com.smartparking.repository.ClientRepository;
@@ -60,16 +59,16 @@ public class SpringSecurityUserService implements UserDetailsService {
     public void saveClientFromRegistrationRequest(RegistrationRequest registrationRequest) throws EmailValidationEx, NonMatchingPasswordsEx, PasswordValidationEx, FirstnameValidationEx, LastnameValidationEx, DuplicateEmailEx {
         Client client = new Client();
         client.setEmail(validator.validateEmailOnRegistration(registrationRequest.getEmail()));
-        client.setPassword(bcryptEncoder.encode(validator.validatePassword(registrationRequest.getPassword())));
-        client.setFirstName(validator.validateFirstname(registrationRequest.getFirstName()));
-        client.setLastName(validator.validateLastname(registrationRequest.getLastName()));
+        client.setPassword(bcryptEncoder.encode(validator.checkPasswords(registrationRequest.getPassword(), registrationRequest.getConfirmPassword())));
+        client.setFirstName(validator.validateFirstname(registrationRequest.getFirstname()));
+        client.setLastName(validator.validateLastname(registrationRequest.getLastname()));
         client.setRole(Role.DRIVER);
         clientRepository.save(client);
     }
 
     public void updateClientPassword(PasswordRequest passwordRequest) throws NonMatchingPasswordsEx, PasswordValidationEx {
         Client client = clientRepository.findClientByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        client.setPassword(bcryptEncoder.encode(validator.validatePassword(passwordRequest.getPassword())));
+        client.setPassword(bcryptEncoder.encode(validator.checkPasswords(passwordRequest.getPassword(), passwordRequest.getConfirmPassword())));
         clientRepository.save(client);
     }
 }

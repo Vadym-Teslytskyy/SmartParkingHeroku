@@ -8,14 +8,14 @@ public class FavoriteRequest {
 
     private Long id;
 
-    private String favoriteName;
+    private String name;
 
-    public String getFavoriteName() {
-        return favoriteName;
+    public String getName() {
+        return name;
     }
 
-    public void setFavoriteName(String favoriteName) {
-        this.favoriteName = favoriteName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -29,7 +29,7 @@ public class FavoriteRequest {
     public Favorite toFavorite(Client client, Parking parking) {
         Favorite favorite = new Favorite();
         favorite.setId(id);
-        favorite.setName(favoriteName);
+        favorite.setName(name);
         favorite.setClient(client);
         favorite.setParking(parking);
         return favorite;

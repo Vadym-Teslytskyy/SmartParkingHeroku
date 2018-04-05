@@ -39,7 +39,7 @@ public class ValidatorImpl implements Validator {
     @Override
     public String validateEmailOnRegistration(String email) throws EmailValidationEx, DuplicateEmailEx {
         if(email == null || !email.matches(regex) || email.length() < emailMin || email.length() > emailMax) {
-            LOGGER.warn("Invalid email");
+            LOGGER.warn("Invalid email " + email);
             throw new EmailValidationEx("Entered e-mail adress is not valid");
         }
         if(clientRepository.findClientByEmail(email) != null) {
@@ -51,7 +51,7 @@ public class ValidatorImpl implements Validator {
     @Override
     public String validateEmailOnLogin(String email) throws EmailValidationEx, NonExistantEmailEx {
         if(email == null || !email.matches(regex) || email.length() < emailMin || email.length() > emailMax) {
-            LOGGER.warn("Invalid email");
+            LOGGER.warn("Invalid email " + email);
             throw new EmailValidationEx("Entered e-mail adress is not valid");
         }
         if(clientRepository.findClientByEmail(email) == null) {
@@ -72,7 +72,7 @@ public class ValidatorImpl implements Validator {
     @Override
     public String validateFirstname(String firstname) throws FirstnameValidationEx {
         if(firstname == null || firstname.length() < firstnameMin || firstname.length() > firstnameMax){
-            LOGGER.warn("Invalid firstname");
+            LOGGER.warn("Invalid firstname " + firstname);
             throw new FirstnameValidationEx("Firstname is invalid");
         }
         return firstname;
@@ -81,10 +81,20 @@ public class ValidatorImpl implements Validator {
     @Override
     public String validateLastname(String lastname) throws LastnameValidationEx {
         if(lastname == null || lastname.length() < lastnameMin || lastname.length() > lastnameMax){
-            LOGGER.warn("Invalid lastname");
+            LOGGER.warn("Invalid lastname " + lastname);
             throw new LastnameValidationEx("Lastname is invlaid");
         }
         return lastname;
     }
+
+    @Override
+    public String checkPasswords(String password, String confirmPassword) throws NonMatchingPasswordsEx, PasswordValidationEx {
+        if(!validatePassword(password).equals(validatePassword(confirmPassword))) {
+            LOGGER.warn("Passwords doesnt match " + password + " " + confirmPassword);
+            throw new NonMatchingPasswordsEx("Passwords doesn`t match");
+        }
+        return password;
+    }
+
 
 }

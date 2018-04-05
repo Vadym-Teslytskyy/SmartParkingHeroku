@@ -3,11 +3,14 @@ package com.smartparking.controller;
 import com.smartparking.entity.Provider;
 import com.smartparking.model.filter.ProviderFilter;
 import com.smartparking.model.request.ProviderRequest;
+import com.smartparking.model.response.ClientDetailResponse;
+import com.smartparking.model.response.ClientItemResponse;
 import com.smartparking.model.response.ProviderItemResponse;
 import com.smartparking.service.ProviderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,5 +63,4 @@ public class ProviderController {
         LOGGER.debug("Provider was saved.");
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

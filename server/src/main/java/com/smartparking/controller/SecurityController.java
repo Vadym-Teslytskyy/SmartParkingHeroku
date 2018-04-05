@@ -9,9 +9,12 @@ import com.smartparking.service.impl.SpringSecurityUserService;
 import com.smartparking.security.tokens.TokenUtil;
 import com.smartparking.entity.SpringSecurityUser;
 import com.smartparking.security.utils.Validator;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,16 +23,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class SecurityController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityController.class);
+    private static final String CLAIM_USERNAME_KEY = "username";
     @Autowired
     private Validator validator;
 
@@ -40,7 +42,8 @@ public class SecurityController {
     private TokenUtil tokenUtil;
 
     @Autowired
-    private SpringSecurityUserService userService;
+    @Qualifier("MyUserDetails")
+    private UserDetailsService userService;
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
@@ -79,12 +82,28 @@ public class SecurityController {
     public ResponseEntity saveUser(@RequestBody RegistrationRequest regReq) {
         LOGGER.info("Start registration");
         try {
-            userService.saveClientFromRegistrationRequest(regReq);
+            ((SpringSecurityUserService)userService).saveClientFromRegistrationRequest(regReq);
         } catch (AuthorizationEx e) {
             LOGGER.warn(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new InfoResponse(e.getMessage()));
         }
-        LOGGER.info("Registered successfully");
-        return ResponseEntity.status(HttpStatus.OK).body(new InfoResponse("You are successfully registered"));
+        LOGGER.info("Registered successfull");
+        return ResponseEntity.status(HttpStatus.OK).body(new InfoResponse("You are successfull registered"));
+    }
+
+    @RequestMapping(value = "/refresh", method = RequestMethod.POST)
+    public ResponseEntity refresh(@RequestBody AuthTokenResponse authToken) {
+        LOGGER.info("Go into refresh block");
+        try {
+            tokenUtil.getUsernameFromToken(authToken.getToken());
+        } catch (IllegalArgumentException e) {
+            LOGGER.warn("Claims jws string is or empty or only whitespace");
+        } catch (ExpiredJwtException e) {
+            LOGGER.info("Token expired");
+            return ResponseEntity.ok(new AuthTokenResponse(tokenUtil.generateToken(userService.loadUserByUsername(e.getClaims().get(CLAIM_USERNAME_KEY, String.class)))));
+        } catch(SignatureException e){
+            LOGGER.warn("JWS signature validation fails");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new InfoResponse("Error"));
     }
 }

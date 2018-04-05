@@ -1,5 +1,6 @@
 package com.smartparking.repository;
 
+import com.smartparking.entity.Parking;
 import com.smartparking.entity.Spot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +21,9 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     Long countAllSpotsByParkingId(Long id);
 
     List<Spot> findAllByParkingId(Long id);
+
+    @Query("SELECT p, count(s.id) FROM Parking p JOIN p.spots s JOIN s.events e where p.street=?1"
+            + " group by s.id order by count(s.id) desc")
+    List<Parking> findMostPopularParkingsByStreet(String input);
 
 }

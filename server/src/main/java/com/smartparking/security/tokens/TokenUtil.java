@@ -2,6 +2,7 @@ package com.smartparking.security.tokens;
 
 import com.smartparking.entity.SpringSecurityUser;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +19,13 @@ public interface TokenUtil {
 
     Boolean isTokenExpired(String token);
 
-    String generateToken(SpringSecurityUser user);
+    String generateToken(UserDetails user);
 
     Boolean validateToken(String token, UserDetails userDetails);
 
-    Map<String, Object> generateClaims (SpringSecurityUser user);
+    Map<String, Object> generateClaims (UserDetails user);
 
     Date generateExpirationDate();
+
+    String refreshToken(ExpiredJwtException e);
 }

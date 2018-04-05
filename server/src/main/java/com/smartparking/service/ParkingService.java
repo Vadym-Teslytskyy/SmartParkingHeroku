@@ -14,4 +14,12 @@ public interface ParkingService extends Service<Parking, Long, ParkingRepository
     List<ParkingResponse> findAllByProviderIdResponse(Long id);
 
     List<ParkingResponse> findAllNearbyResponse(Double latitude, Double longitude, Double radius);
+
+    Boolean isFavorite(String email, Long parkingId);
+
+    String findFavoriteNameByEmailAndParkingId(String email, Long parkingId);
+
+    List<Parking> findParkingsByCity(String input);
+
+    List<String> findParkingStreetByAnyMatch(String input);
 }

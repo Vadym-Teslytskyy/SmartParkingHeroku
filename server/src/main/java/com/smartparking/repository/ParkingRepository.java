@@ -20,4 +20,9 @@ public interface ParkingRepository extends JpaRepository<Parking, Long> {
     List<Tuple> findAllNearby(@Param(value = "latitude") Double latitude,
                               @Param(value = "longitude") Double longitude,
                               @Param(value = "radius") Double radius);
+
+    List<Parking> findParkingsByCity(String input);
+
+    @Query("SELECT distinct p.street from Parking p where p.street like %?1%")
+    List<String> findParkingStreetByAnyMatch(String input);
 }

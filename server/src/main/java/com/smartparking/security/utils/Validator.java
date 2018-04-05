@@ -10,4 +10,5 @@ public interface Validator {
     String validatePassword(String password) throws PasswordValidationEx;
     String validateFirstname(String firstname) throws FirstnameValidationEx;
     String validateLastname(String lastname) throws LastnameValidationEx;
+    String checkPasswords(String password, String confirmPassword) throws NonMatchingPasswordsEx, PasswordValidationEx;
 }

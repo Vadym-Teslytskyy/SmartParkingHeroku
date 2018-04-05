@@ -33,8 +33,13 @@ public class FavoriteController {
         Parking parking = parkingService.findById(id);
         Client client = clientService.findOne(
                 SecurityContextHolder.getContext().getAuthentication().getName());
+        Boolean isFavorite = parkingService.isFavorite(client.getEmail(), id);
+        if (!isFavorite){
         favoriteService.save(favoriteRequest.toFavorite(client, parking));
-        return ResponseEntity.status(HttpStatus.OK).body(new InfoResponse("Parking was added to favorites"));
+            return ResponseEntity.status(HttpStatus.OK).body(new InfoResponse("Parking was added to favorites"));
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(new InfoResponse("Parking is already in favorites"));
+        }
     }
 
 }

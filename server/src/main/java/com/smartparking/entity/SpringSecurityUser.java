@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Deprecated
+
 public class SpringSecurityUser implements UserDetails{
     private Long id;
     private String username;
