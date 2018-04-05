@@ -2781,7 +2781,7 @@ var InterceptorService = /** @class */ (function () {
     }
     InterceptorService_1 = InterceptorService;
     InterceptorService.prototype.intercept = function (request, next) {
-        if (request.url.startsWith('http://localhost:8080/') && (__WEBPACK_IMPORTED_MODULE_3__auth_token_token_storage__["a" /* TokenStorage */].getToken())) {
+        if (__WEBPACK_IMPORTED_MODULE_3__auth_token_token_storage__["a" /* TokenStorage */].getToken()) {
             request = InterceptorService_1.addAuthHeaderToRequest(request);
         }
         return next.handle(request).do(function (event) {

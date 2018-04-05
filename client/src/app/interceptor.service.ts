@@ -17,7 +17,7 @@ export class InterceptorService implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (request.url.startsWith('http://localhost:8080/') && (TokenStorage.getToken())) {
+        if (TokenStorage.getToken()) {
             request = InterceptorService.addAuthHeaderToRequest(request);
         }
         return next.handle(request).do((event: HttpEvent<any>) => {
