@@ -22,6 +22,7 @@ import {ClientProfileEditComponent} from "./client-profile/client-profile-edit/c
 import {ClientProfileEditPasswordComponent} from "./client-profile/client-profile-edit-password/client-profile-edit-password.component";
 import {StatisticComponent} from "./statistic/statistic.component";
 import {ParkingStatisticComponent} from "./statistic/parking-statistic/parking-statistic.component";
+import {SpotstatisticComponent} from "./spotstatistic/spotstatistic.component";
 
 const routes: Routes = [
     {path: '', redirectTo: '/index', pathMatch: 'full'},
@@ -55,6 +56,10 @@ const routes: Routes = [
     {path: 'profile', component: ClientProfileComponent},
     {path: 'statistic', component: StatisticComponent},
     {path: 'statistic/parkingstatistic', component: ParkingStatisticComponent},
+    {path: 'statistic/parkingstatistic/parkingdetail/:id', component: ParkingDetailComponent},
+    {path: 'statistic/parkingstatistic', component: ParkingStatisticComponent},
+    {path: 'spotstatistic/:id', component: SpotstatisticComponent}
+
 ];
 
 @NgModule({

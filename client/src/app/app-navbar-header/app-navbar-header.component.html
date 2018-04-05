@@ -18,7 +18,6 @@
     </button>
     </span>
     <span *ngIf="getRole() === 'PROVIDER_MANAGER' || getRole() === 'SUPERUSER'">
-
         <button [routerLink]="['/configuration']" mat-icon-button>
             <mat-icon>settings</mat-icon>
         </button>

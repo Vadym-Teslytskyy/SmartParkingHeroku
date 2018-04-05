@@ -4,6 +4,7 @@ export class Parking {
     city: string;
     street: string;
     building: string;
+    address:string;
     latitude: number;
     longitude: number;
     token: string;
@@ -14,6 +15,8 @@ export class Parking {
     spotsCount: number;
     availableSpotsCount: number;
     distance: number;
+    isFavorite: Boolean;
+    favoriteName: string;
 
     public static copyOf(parking: Parking): Parking {
         return Object.assign(new Parking(), parking);

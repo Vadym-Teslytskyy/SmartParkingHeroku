@@ -33,13 +33,20 @@
                     <span> {{parking.latitude}}, {{parking.longitude}}</span>
                 </mat-list-item>
                 <mat-divider></mat-divider>
-                <mat-list-item>
-                    <div class="col-4">
-                        <span style="font-size:18px;"><b><i>Add to favorites</i></b></span>
+                <mat-list-item *ngIf="hasToken()">
+                    <div class="col-4" *ngIf="!parking.isFavorite">
+                        <span style="font-size:18px;" ><b><i>Add to favorites</i></b></span>
                         <button mat-icon-button color="warn" (click)="onParkingAddToFavoritesClick()">
                         <mat-icon>star_rate</mat-icon>
                     </button>
                 </div>
+                <div class="col-10" *ngIf="parking.isFavorite">
+                    <span style="font-size:18px;" ><b>Parking is in your favorites as:</b> <b><i>{{parking.favoriteName}}</i></b></span>
+                    <!-- <button mat-icon-button color="warn" (click)="onParkingAddToFavoritesClick()">
+                    <mat-icon>star_rate</mat-icon>
+                </button> -->
+            </div>
+                
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item>

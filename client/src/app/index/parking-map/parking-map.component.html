@@ -1,19 +1,32 @@
-<h1>{{ title }}</h1>
+<agm-map [latitude]="lat"
+         [longitude]="lng"
+         [fullscreenControl]="true">
+    <agm-marker [latitude]="lat" [longitude]="lng" [draggable]="true"></agm-marker>
+    <div *ngFor="let parking of parkings">
+        <agm-marker [latitude]="parking.latitude" [longitude]="parking.longitude"
+                    [iconUrl]="'/assets/images/icon_parking_info_40x38.png'">
+            <agm-info-window [disableAutoPan]="false">
+                <ul>
+                    <li><b>Address:</b> {{parking.city}} / {{parking.street}} / {{parking.building}}</li>
+                    <li><b>Distance:</b> {{parking.distance}}</li>
+                    <li><b>Spots:</b> {{parking.spotsCount}}</li>
+                    <li><b>Spots available:</b> {{parking.availableSpotsCount}}</li>
+                </ul>
+                <button type="button" (click)="getDirection(parking.latitude, parking.longitude)">Get</button>
+            </agm-info-window>
+        </agm-marker>
+        <agm-direction *ngIf="dir" [origin]="dir.origin" [destination]="dir.destination"></agm-direction>
+    </div>
+</agm-map>
 
-<!-- this creates a google map on the page with the given lat/lng from -->
-<!-- the component as the initial center of the map: -->
 
-<div class="text-white">
-    <span>Longitude: {{lat}}</span>
-    <span>Longitude: {{lng}}</span>
+<!--LEAFLET VARIANT-->
+<!--
+<div class="map"
+     leaflet
+     [leafletOptions]="options"
+     [leafletLayersControl]="layersControl">
 </div>
-<button (click)="findMe()">Refresh</button>
-<div class="offset-2 col-md-8">
-    <agm-map [latitude]="lat" [longitude]="lng">
-        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-       <!-- <span *ngFor="let parking of parkings">
-            <agm-marker [latitude]="parking.latitude" [longitude]="parking.longitude"></agm-marker>
-        </span>-->
+-->
 
-    </agm-map>
-</div>
+

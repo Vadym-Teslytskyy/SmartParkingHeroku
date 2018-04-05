@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 import {MatDialog, MatSnackBar} from '@angular/material';
+import {HttpResponse} from '@angular/common/http';
+import {TokenStorage} from '../auth/token/token-storage';
 
 import {Parking} from '../model/view/parking';
 import {ParkingService} from "../parking.service";
@@ -21,7 +23,7 @@ import {Favorite} from '../model/view/favorite';
 export class ParkingDetailComponent implements OnInit {
 
    parking: Parking;
-    favorite: Favorite;
+   favorite: Favorite;
    spots: Spot[];
    freeSpots: Spot[];
    type: String;
@@ -42,6 +44,7 @@ export class ParkingDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getParking().subscribe(parking => {
+
        this.fullnessBarCount();
     });
     this.getSpots();
@@ -58,6 +61,7 @@ export class ParkingDetailComponent implements OnInit {
   }
 
   fullnessBarCount(): void {
+    console.log('isFavorite ->'+this.parking.isFavorite);
       this.max = this.parking.spotsCount;
       this.value = this.parking.spotsCount - this.parking.availableSpotsCount;
     if (this.value < (this.max * 0.6)) {
@@ -95,17 +99,42 @@ export class ParkingDetailComponent implements OnInit {
   }
 
     onParkingAddToFavoritesClick(): void {
+      const id = parseInt(this.route.snapshot.paramMap.get('id'));
+
         let dialogRef = this.dialog.open(FavoritesAddConfigmDialogComponent, {
             data: new FavoriteAddData()
         });
 
-        dialogRef.afterClosed().subscribe(data => {
+        dialogRef.afterClosed().subscribe((data: FavoriteAddData) => {
             if (data.confirmed) {
-
-                // this.managerParkingService.deleteParking(parking)
-                //     .subscribe(response => this.onDeleteResponse(parking, response));
+              this.favorite = new Favorite();
+              if(data.name.length != 0){
+                this.favorite.name = data.name;
+              }else{
+                this.favorite.name = this.parking.address;
+              }
+              this.parkingService.saveToFavorite(id, this.favorite).subscribe((response: HttpResponse<any>) => {
+                this.snackBar.open('Parking add to favorite sucsessfully.', null, {
+                    duration: 2000
+                });
+            });
+            this.ngOnInit();
             }
         });
+        
     }
+
+    getRole(): string {
+      return TokenStorage.getRole();
+    }
+  
+    hasToken(): boolean{
+      return TokenStorage.hasToken();
+    }
+  
+    logOut() {
+        TokenStorage.signOut();
+    }
+  
 
 }

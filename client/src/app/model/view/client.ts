@@ -8,4 +8,9 @@ export class Client {
     providersId: number;
     role: string;
     image: string;
+
+    public static copyOf(client: Client): Client {
+        return Object.assign(new Client(), client);
+    }
+
 }

@@ -1,3 +1,61 @@
-<p>
-  parking-statistic works!
-</p>
+<h3 class="text-center">The most popular parkings:</h3>
+<div class="parent row">
+
+    <div class="col-md-12">
+        <ul>
+            <div *ngFor="let parking of parkings">
+                <mat-card class="card offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image">
+                            <mat-icon>local_parking</mat-icon>
+                        </div>
+                        <div style="min-width: 70%;">
+                            <div>
+                                <mat-card-title>{{parking.city}}, {{parking.street}} street</mat-card-title>
+                                <mat-card-subtitle>{{parking.providerName}}</mat-card-subtitle>
+
+                            </div>
+                        </div>
+                        <div style="width: 100%"></div>
+                        <mat-icon style="color: #1e7e34">attach_money</mat-icon>
+                        <p style="font-size: 18px;">{{parking.price}}</p>
+                    </mat-card-header>
+
+                    <mat-card-actions align="right">
+                        <button mat-button routerLink='parkingdetail/2' color="primary">MORE INFO</button>
+                    </mat-card-actions>
+                </mat-card>
+                <hr/>
+            </div>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="filter offset-1 col-md-10">
+        <mat-divider style="border-color: purple;"></mat-divider>
+        <mat-card class="card">
+
+            <div class="row">
+                <mat-form-field class="col-md-3">
+                    <input matInput placeholder="search" #searchBox id="search-box"
+                           (keyup)="findParkingsStreets(searchBox.value)">
+                    <ul class="search-result">
+                        <li *ngFor="let parkingsStreet of parkingsStreets">
+                            <!--The $ is a convention that indicates heroes$ is an Observable, not an array.-->
+                            <a (click)="findBestParkingsByStreet(parkingsStreet)">
+                                {{parkingsStreet}}
+                            </a>
+                        </li>
+                    </ul>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="offset-5 col-6">
+                    <button mat-raised-button color="primary" class="mt-5">Search</button>
+                </div>
+            </div>
+
+
+        </mat-card>
+    </div>
+</div>

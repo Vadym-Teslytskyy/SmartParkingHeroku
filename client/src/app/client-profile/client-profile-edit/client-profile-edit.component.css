@@ -1,36 +1,45 @@
-.container-style {
-    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    margin-top: 5%;
+.card {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
-.heading {
-    margin-bottom: 5%;
-    font-size: 1.4em;
+.submit-button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-.mat-form-field {
-    min-width: 100%;
+.parking-configure-headers-align .mat-expansion-panel-header-title,
+.parking-configure-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
 }
 
-input {
-    margin: 1%;
+.parking-configure-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
 }
 
-h6 {
-    margin-top: 3%;
-    margin-left: auto;
-    margin-right: auto;
-    color: darkred;
+.full-width {
+    width: 100%;
 }
 
-#aBack {
-    display: block;
-    margin-left: 38%;
-    margin-top: 5%;
+mat-form-field {
+    padding: 5px;
+    width: 50%;
 }
 
-.mat-form-field {
-    font-size: 0.8em;
+mat-panel-title {
+    width: 100px;
+}
+
+mat-panel-description {
+    width: 100%;
+    /*height: 25px;*/
+}
+
+.tokenField {
+    width: 290px;
 }
 
 

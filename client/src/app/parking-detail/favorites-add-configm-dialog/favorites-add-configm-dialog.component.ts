@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'app-favorites-add-configm-dialog',
@@ -9,15 +8,9 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 })
 export class FavoritesAddConfigmDialogComponent implements OnInit {
 
-    addToFavoritesForm = new FormGroup({
-        name: new FormControl('', []),
-    });
-
-
     constructor(public dialogRef: MatDialogRef<FavoritesAddConfigmDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: FavoriteAddData,
-                private formBuilder: FormBuilder,) {
-    }
+    ) {  }
 
     ngOnInit() {
     }
@@ -33,6 +26,6 @@ export class FavoritesAddConfigmDialogComponent implements OnInit {
 }
 
 export class FavoriteAddData {
-    public name: string;
+    public name: string = '';
     public confirmed: boolean;
 }

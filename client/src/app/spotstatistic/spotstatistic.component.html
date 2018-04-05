@@ -1,0 +1,55 @@
+<mat-card class="card offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10">
+  <mat-card-header>
+
+<table class="table table-hover">
+  <thead>
+      <tr class="text-center">
+          <th scope="col">Spot number #</th>
+          <th scope="col">Hours have been taken</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let spotstatistic of statistic" class="text-center">
+          <th scope="row">{{spotstatistic.id}}</th>
+          <th scope="row">{{spotstatistic.numberOfHours}}</th>
+
+        
+          
+      </tr>
+  </tbody>
+</table>
+</mat-card-header> 
+</mat-card> 
+
+<div class="row">
+
+        <div class="col-xs-12 col-12 col-md-4 form-group">
+                <label>Set min data</label>
+                <input type="text" class="form-control" placeholder="Datepicker" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfig1" [(ngModel)]="minDate">                    
+              </div>
+
+              <div class="col-xs-12 col-12 col-md-4 form-group">
+                    <label>Set max data</label>
+                    <input type="text" class="form-control" placeholder="Datepicker" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfig2" [(ngModel)]="maxDate">                                 
+              </div>
+
+
+
+
+    <div class="col-xs-12 col-12 col-md-4 form-group">
+        <div>
+      <label>Display statistic of spots</label>
+    </div>
+    <div>
+     <button class="btn btn-success" (click)="addItem()">Display</button>
+    </div>  
+    </div>
+    
+  </div>
+
+
+  <p class="life-container" *ngFor="let goal of goals">
+    {{ goal }}
+  </p>
+  
+

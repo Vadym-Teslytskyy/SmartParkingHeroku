@@ -1,9 +1,10 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Role} from "../../clients/role";
 import {Provider} from "../../model/view/provider";
 import {Client} from "../../model/view/client";
 import {ActivatedRoute, Router} from '@angular/router';
 import {ClientService} from "../../clients/client.service";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-client-profile-edit',
@@ -14,30 +15,65 @@ export class ClientProfileEditComponent implements OnInit {
 
     id: number;
     client: Client;
+    loadedClient: Client;
     provider: Provider;
     providers: Provider[];
     roles: Role[];
     selectedRole: string;
     selectedProvidersId: number;
-    @ViewChild('fileInput') fileInput: ElementRef;
+    step = -1;
+    profileEditForm = new FormGroup({
+        image: new FormControl('', []),
+        firstName: new FormControl('', [Validators.required,]),
+        lastName: new FormControl('', [Validators.required,])
+
+    });
+
 
     constructor(private route: ActivatedRoute,
                 private clientService: ClientService,
                 private router: Router) {
     }
 
+
     ngOnInit() {
         this.getClientProfile();
     }
 
+    setStep(index: number): void {
+        this.step = index;
+    }
+
+    nextStep(): void {
+        this.step++;
+    }
+
+    prevStep(): void {
+        this.step--;
+    }
+
+    resetFirstName() {
+        this.client.firstName = this.loadedClient.firstName;
+    }
+
+    resetLastName() {
+        this.client.lastName = this.loadedClient.lastName;
+    }
+
+    resetImage() {
+        this.client.image = this.loadedClient.image;
+    }
+
     getClientProfile(): void {
         this.clientService.getClientProfile()
-            .subscribe(client => this.client = client);
+            .subscribe(client => {
+                this.client = client;
+                this.loadedClient = Client.copyOf(client);
+            });
     }
 
 
     udateProfile(): void {
-        console.log(this.client.email);
         this.clientService.updateClientProfile(parseInt(this.client.id), this.client)
             .subscribe(data => {
                 alert('Client was updated successfully.');
@@ -56,15 +92,10 @@ export class ClientProfileEditComponent implements OnInit {
             reader.readAsDataURL(file);
             reader.onload = () => {
                 this.client.image = reader.result.split(',')[1];
-                console.log(this.client.image);
             };
         }
     }
 
-    clearFile() {
-        this.client.image = null;
-        this.fileInput.nativeElement.value = '';
-    }
 
 
     goToPasswordEdit() {

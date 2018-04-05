@@ -4,7 +4,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {RegistrationData} from "./registration-data";
 import {RegistrationService} from "./registration.service";
 import {Router} from "@angular/router";
-import {TokenService} from "../token/token.service";
 import {InfoResponse} from "../info-response";
 import {HttpErrorResponse} from "@angular/common/http";
 

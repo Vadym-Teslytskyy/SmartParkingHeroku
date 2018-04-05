@@ -27,7 +27,7 @@ export class ClientListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.findAllClients();
+        this.findLimitNumberOfClients();
     }
 
     setPage(page: number) {
@@ -66,7 +66,7 @@ export class ClientListComponent implements OnInit {
 
     findClientsFromBackEnd(searchInput: string): void {
         if (this.inputInSearchFieldIsNull(searchInput)) {
-            this.findAllClients();
+            this.findLimitNumberOfClients();
         } else {
             this.clientService.getClientsByAnyMatch(searchInput)
                 .subscribe(clients => {

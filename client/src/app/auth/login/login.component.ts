@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
         this.loginData = this.loginForm.value;
         this.loginService.signIn(this.loginData)
             .subscribe((token: Token)=>{
-                 TokenStorage.saveToken(token.token);
+                TokenStorage.saveToken(token.token);
                 alert('You are successfully authorized');
                 this.router.navigate(['/']);
                 }, (error) => {

@@ -6,6 +6,7 @@ import {MatProgressBar} from '@angular/material';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Parking} from '../model/view/parking';
+import {ParkingMapComponent} from './parking-map/parking-map.component';
 
 @Component({
     selector: 'app-index',
@@ -14,7 +15,7 @@ import {Parking} from '../model/view/parking';
 })
 export class IndexComponent implements OnInit {
 
-    @ViewChild('parkingList') private parkingList: ParkingListComponent;
+    @ViewChild('parkingList') private parkingList: ParkingMapComponent;
 
     @ViewChild('filter') private filter: ParkingListFilterComponent;
 

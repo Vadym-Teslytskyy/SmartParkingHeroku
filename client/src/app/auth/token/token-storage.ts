@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {Token} from "./token";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {Observable} from "rxjs/Observable";
+import {environment} from "../../../environments/environment";
 
 const TOKEN_KEY = 'access_token';
 const helper = new JwtHelperService();
 
 
 @Injectable()
-export class TokenStorage{
+export class TokenStorage {
 
     constructor() {
     }
@@ -32,17 +36,13 @@ export class TokenStorage{
         return TokenStorage.decodeToken().authorities[0].authority;
     }
 
+
     public static getUsername(): string {
         return TokenStorage.decodeToken().username;
     }
 
     private static decodeToken(): any {
-        console.log(helper.decodeToken(TokenStorage.getToken()));
         return helper.decodeToken(TokenStorage.getToken());
-    }
-
-    public static refresh(): string {
-        return null;
     }
 
     public static hasToken(): boolean {
