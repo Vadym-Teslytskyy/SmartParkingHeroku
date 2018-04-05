@@ -2763,6 +2763,7 @@ var ParkingMapComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_do__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/do.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_token_token_storage__ = __webpack_require__("./src/app/auth/token/token-storage.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment__ = __webpack_require__("./src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2776,12 +2777,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var InterceptorService = /** @class */ (function () {
     function InterceptorService() {
+        this.herokuUrl = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].apiUrl;
     }
     InterceptorService_1 = InterceptorService;
     InterceptorService.prototype.intercept = function (request, next) {
-        if (__WEBPACK_IMPORTED_MODULE_3__auth_token_token_storage__["a" /* TokenStorage */].getToken()) {
+        if (request.url.startsWith(this.herokuUrl) && (__WEBPACK_IMPORTED_MODULE_3__auth_token_token_storage__["a" /* TokenStorage */].getToken())) {
             request = InterceptorService_1.addAuthHeaderToRequest(request);
         }
         return next.handle(request).do(function (event) {

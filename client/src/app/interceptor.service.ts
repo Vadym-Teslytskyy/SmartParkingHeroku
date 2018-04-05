@@ -13,11 +13,13 @@ import {environment} from "../environments/environment";
 @Injectable()
 export class InterceptorService implements HttpInterceptor {
 
+    private herokuUrl = environment.apiUrl;
+
     constructor() {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (TokenStorage.getToken()) {
+        if (request.url.startsWith(this.herokuUrl) && (TokenStorage.getToken())) {
             request = InterceptorService.addAuthHeaderToRequest(request);
         }
         return next.handle(request).do((event: HttpEvent<any>) => {
