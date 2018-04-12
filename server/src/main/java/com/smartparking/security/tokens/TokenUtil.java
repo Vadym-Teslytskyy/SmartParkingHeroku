@@ -11,21 +11,6 @@ import java.util.Map;
 
 @Component
 public interface TokenUtil {
+    TokenPair generateTokenPair(UserDetails user);
     String getUsernameFromToken(String token);
-
-    Date getExpirationDateFromToken(String token);
-
-    Claims getAllClaimsFromToken(String token);
-
-    Boolean isTokenExpired(String token);
-
-    String generateToken(UserDetails user);
-
-    Boolean validateToken(String token, UserDetails userDetails);
-
-    Map<String, Object> generateClaims (UserDetails user);
-
-    Date generateExpirationDate();
-
-    String refreshToken(ExpiredJwtException e);
 }

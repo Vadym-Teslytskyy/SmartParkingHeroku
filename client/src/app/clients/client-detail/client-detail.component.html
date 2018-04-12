@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="client">
     <br/>
     <br/>
     <mat-card class="card offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10">
@@ -12,10 +12,11 @@
                     <mat-card-title><span>Client name:</span> {{client.firstName}} {{client.lastName}}
                     </mat-card-title>
                     <mat-card-title><span>Email:</span> {{client.email}}</mat-card-title>
-                    <mat-card-title *ngIf="client.providerName!='no provider'" (click)="goToProvidersDetails()" id="prov">
-                        <span>Provider: </span>{{client.providerName}}
+                    <mat-card-title *ngIf="client.providerName!='no provider'" (click)="goToProvidersDetails()"
+                    >
+                        <span>Provider:</span> <span id="prov" matTooltip="Go to the provider details form">{{client.providerName}}, <span id="details">(details)</span></span>
                     </mat-card-title>
-                    <mat-card-title><span>Favorites parkings: </span><span
+                    <mat-card-title *ngIf="client.favoritesNames.length>0"><span>Favorites parkings: </span><span
                             *ngFor="let name of client.favoritesNames">{{name}}, </span>
                     </mat-card-title>
                 </div>

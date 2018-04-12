@@ -5,6 +5,7 @@ import {Client} from "../../model/view/client";
 import {ActivatedRoute, Router} from '@angular/router';
 import {ClientService} from "../../clients/client.service";
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar} from "@angular/material";
 
 @Component({
     selector: 'app-client-profile-edit',
@@ -32,7 +33,8 @@ export class ClientProfileEditComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
                 private clientService: ClientService,
-                private router: Router) {
+                private router: Router,
+                private snackBar: MatSnackBar) {
     }
 
 
@@ -76,7 +78,9 @@ export class ClientProfileEditComponent implements OnInit {
     udateProfile(): void {
         this.clientService.updateClientProfile(parseInt(this.client.id), this.client)
             .subscribe(data => {
-                alert('Client was updated successfully.');
+                this.snackBar.open('Client profile was updated successfully.', null, {
+                    duration: 2000
+                });
             });
 
     }

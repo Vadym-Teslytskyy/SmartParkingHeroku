@@ -31,10 +31,12 @@ public class ProviderController {
         this.providerService = providerService;
     }
 
-    @PostMapping("providers")
-    ResponseEntity<List<ProviderItemResponse>> findAll(@RequestBody ProviderFilter providerFilter) {
-        LOGGER.debug("Filtering by " + providerFilter.getActive() + " state and " + providerFilter.getCompanyName() +
+    @GetMapping("providers")
+    ResponseEntity<List<ProviderItemResponse>> findAll(@RequestParam String active,
+                                                       @RequestParam String companyName) {
+        LOGGER.debug("Filtering by " + active + " state and " + companyName +
                 " company name.");
+        ProviderFilter providerFilter = new ProviderFilter(active, companyName);
         List<Provider> providers = providerService.findAllByFilter(providerFilter);
         List<ProviderItemResponse> providerResponses = new ArrayList<>();
         providers.forEach(provider -> providerResponses.add(ProviderItemResponse.of(provider)));

@@ -7,6 +7,7 @@ import {ROLES} from './mock-roles';
 import {Provider} from '../model/view/provider';
 import {environment} from '../../environments/environment';
 import {PasswordData} from "../client-profile/client-profile-edit-password/password-data";
+import {Parking} from "../model/view/parking";
 
 @Injectable()
 export class ClientService {
@@ -63,6 +64,14 @@ export class ClientService {
 
     updateClientPassword(data: PasswordData): Observable<any> {
         return this.http.post(this.clientProfile + '/update/password', data);
+    }
+
+    sendConfirmation(): Observable<any>{
+        return this.http.get(this.clientProfile + '/update/password/confirm');
+    }
+
+    getFavoritesParkingsForClient(): Observable<Parking[]> {
+        return this.http.get<Parking[]>(this.clientProfile + '/favorites');
     }
 
 }

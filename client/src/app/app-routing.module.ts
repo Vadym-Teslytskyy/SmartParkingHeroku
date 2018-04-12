@@ -22,7 +22,11 @@ import {ClientProfileEditComponent} from "./client-profile/client-profile-edit/c
 import {ClientProfileEditPasswordComponent} from "./client-profile/client-profile-edit-password/client-profile-edit-password.component";
 import {StatisticComponent} from "./statistic/statistic.component";
 import {ParkingStatisticComponent} from "./statistic/parking-statistic/parking-statistic.component";
-import {SpotstatisticComponent} from "./spotstatistic/spotstatistic.component";
+import {SpotstatisticComponent} from "./statistic/spotstatistic/spotstatistic.component";
+import {NonFoundComponent} from "./errors/non-found/non-found.component";
+import {InternalServerErrorComponent} from "./errors/internal-server-error/internal-server-error.component";
+import {ForbiddenComponent} from "./errors/forbidden/forbidden.component";
+import { ClientPasswordChangeConfirmationComponent } from './client-profile/client-password-change-confirmation/client-password-change-confirmation.component';
 
 const routes: Routes = [
     {path: '', redirectTo: '/index', pathMatch: 'full'},
@@ -49,16 +53,19 @@ const routes: Routes = [
     {path: 'configuration/provider/add', component: AddProviderComponent},
     {path: 'configuration/provider/update/:id', component: UpdateProviderComponent},
     {path: 'registration', component: RegistrationComponent},
-    {path: 'configuration/providers/:id', component: ProviderDetailComponent},
     {path: 'profile', component: ClientProfileComponent},
     {path: 'profile/edit', component: ClientProfileEditComponent},
     {path: 'profile/edit/password', component: ClientProfileEditPasswordComponent},
     {path: 'profile', component: ClientProfileComponent},
     {path: 'statistic', component: StatisticComponent},
-    {path: 'statistic/parkingstatistic', component: ParkingStatisticComponent},
     {path: 'statistic/parkingstatistic/parkingdetail/:id', component: ParkingDetailComponent},
     {path: 'statistic/parkingstatistic', component: ParkingStatisticComponent},
-    {path: 'spotstatistic/:id', component: SpotstatisticComponent}
+     {path: 'parkingdetail/:id/spotstatistic', component: SpotstatisticComponent},
+    {path: 'update/password/:uuid', component: ClientPasswordChangeConfirmationComponent},
+   
+    {path: 'non-found', component: NonFoundComponent},
+    {path: 'server-error', component: InternalServerErrorComponent},
+    {path: 'forbidden', component: ForbiddenComponent}
 
 ];
 

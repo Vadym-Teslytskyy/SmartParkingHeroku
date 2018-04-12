@@ -4,7 +4,11 @@ import {PasswordData} from "./password-data";
 import {ClientService} from "../../clients/client.service";
 import {Router} from '@angular/router';
 import {InfoResponse} from "../../auth/info-response";
-import {HttpErrorResponse} from "@angular/common/http";
+import { HttpResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material';
+
+const NEW_PASSWORD = 'new_password';
+const UUID_PASSWORD_CONFIRM = 'uuid_password_confirm';
 
 export class PasswordValidation {
 
@@ -38,20 +42,10 @@ export class ClientProfileEditPasswordComponent implements OnInit {
         Validators.minLength(6),
         Validators.maxLength(16),
     ]);
-    updatePassword = () => {
-        this.passwordData = this.passwordForm.value;
-        this.clientService.updateClientPassword(this.passwordData).subscribe((info: InfoResponse) => {
-            alert(info.response);
-            this.router.navigate(['/']);
-        }, (error) => {
-            if (error instanceof HttpErrorResponse) {
-                alert(error.error.response);
-            }
-        });
-    }
 
     constructor(private formBuilder: FormBuilder,
                 private clientService: ClientService,
+                private snackBar: MatSnackBar,
                 private router: Router) {
     }
 
@@ -64,7 +58,21 @@ export class ClientProfileEditPasswordComponent implements OnInit {
         });
     }
 
-    goToProfileEdit() {
-        this.router.navigate(['profile/edit']);
+    sendConfirmation = () => {
+        window.localStorage.removeItem(NEW_PASSWORD);
+        window.localStorage.removeItem(UUID_PASSWORD_CONFIRM);
+        this.passwordData = this.passwordForm.value;
+        this.clientService.sendConfirmation().subscribe((response: InfoResponse) => {
+            window.localStorage.setItem(NEW_PASSWORD,  this.passwordData.password);
+            window.localStorage.setItem(UUID_PASSWORD_CONFIRM,  response.response);
+            this.snackBar.open('Email with confirmation sent successfuly. Check your email and confirm new password.', null, {
+              duration: 5000
+            });
+          }, error =>{
+            this.snackBar.open('Email sending Error!', null, {
+                duration: 5000
+              });
+          });
     }
+
 }

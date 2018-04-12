@@ -39,8 +39,8 @@ public class ProviderServiceImpl extends AbstractService<Provider, Long, Provide
     }
 
     @Override
-    public Provider findProviderByClientId(Long id) {
-        return getRepository().findProviderByClientId(id);
+    public Optional<ProviderResponse> findProviderByClientId(Long id) {
+        return getRepository().findProviderByClientId(id).map(ProviderResponse::of);
     }
 
     @Override

@@ -14,26 +14,26 @@ public class ValidatorImpl implements Validator {
     @Autowired
     private ClientRepository clientRepository;
 
-    @Value("${auth.email.regex}")
+    @Value("${validation.email.regex}")
     private String regex;
-    @Value("${auth.email_min}")
+    @Value("${validation.email.min}")
     private int emailMin;
-    @Value("${auth.email_max}")
+    @Value("${validation.email.max}")
     private int emailMax;
 
-    @Value("${auth.password_min}")
+    @Value("${validation.password.min}")
     private int passwordMin;
-    @Value("${auth.password_max}")
+    @Value("${validation.password.max}")
     private int passwordMax;
 
-    @Value("${auth.firstname_min}")
+    @Value("${validation.firstname.min}")
     private int firstnameMin;
-    @Value("${auth.firstname_max}")
+    @Value("${validation.firstname.max}")
     private int firstnameMax;
 
-    @Value("${auth.lastname_min}")
+    @Value("${validation.lastname.min}")
     private int lastnameMin;
-    @Value("${auth.lastname_max}")
+    @Value("${validation.lastname.max}")
     private int lastnameMax;
 
     @Override

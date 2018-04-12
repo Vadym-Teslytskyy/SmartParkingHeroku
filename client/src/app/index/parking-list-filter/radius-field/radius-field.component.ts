@@ -20,7 +20,8 @@ export class RadiusFieldComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.slider.value = 5;
+        if(localStorage.getItem('radius'))
+        this.slider.value = +localStorage.getItem('radius');
         this.refreshComponentView();
     }
 

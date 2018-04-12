@@ -1,30 +1,10 @@
-<h4 class="text-center">Clients list</h4>
-<div class="row">
-    <div class="col-md-3">
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="search" #searchBox id="search-box"
-                   (keyup)="findClientsFromBackEnd(searchBox.value)">
-        </mat-form-field>
-        <div>
-            <button mat-button class="button"
-                    (click)="findAllClients()">Show all clients
-            </button>
-            <button mat-button class="button"
-                    (click)="findDrivers()">Find drivers
-            </button>
-            <button mat-button class="button"
-                    (click)="findProviderManagers()">Find managers
-            </button>
-            <button mat-button class="button"
-                    (click)="findSuperusers()">Find superusers
-            </button>
-        </div>
-    </div>
-    <div class="col-md-6">
+<h3 class="text-center">Clients list:</h3>
+<div class="parent row">
+    <div class="col-md-12">
         <ul>
             <app-client-item *ngFor="let client of pagedClientItems" [client]="client">
             </app-client-item>
-            <div class="pagination">
+            <div class="pagination" *ngIf="allClients>6">
                 <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
                     <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
                         <a class="page-link" (click)="setPage(1)">First</a>
@@ -40,10 +20,34 @@
             </div>
         </ul>
     </div>
-    <div class="col-md-2">
-        <p><b>Matches found:</b> {{allClients}}</p>
+</div>
+<div class="row">
+    <div class="filter offset-1 col-md-10">
+        <mat-divider style="border-color: purple;"></mat-divider>
+        <mat-card class="card">
+            <form class="example-form">
+                <div class="row">
+                    <mat-form-field class="col-md-3">
+                        <input matInput placeholder="search" #searchBox id="search-box"
+                               (keyup)="findClientsFromBackEnd(searchBox.value)">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-select placeholder="Find by roles" disableRipple>
+                            <mat-option value="1" (click)="findAllClients()">Show all clients</mat-option>
+                            <mat-option value="2" (click)="findDrivers()">Find drivers</mat-option>
+                            <mat-option value="3" (click)="findProviderManagers()">Find managers</mat-option>
+                            <mat-option value="4" (click)="findSuperusers()">Find superusers</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <div *ngIf="clients">
+                            <b>Found {{allClients}} matches</b>
+                        </div>
+                    </div>
+            </form>
+
+        </mat-card>
     </div>
 </div>
-
-
-

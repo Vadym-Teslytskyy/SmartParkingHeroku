@@ -5,6 +5,7 @@ import com.smartparking.entity.Role;
 import com.smartparking.entity.SpringSecurityUser;
 import com.smartparking.model.request.PasswordRequest;
 import com.smartparking.model.request.RegistrationRequest;
+import com.smartparking.model.request.SocialSignInRequest;
 import com.smartparking.repository.ClientRepository;
 import com.smartparking.security.exception.*;
 import com.smartparking.security.utils.Validator;
@@ -70,5 +71,21 @@ public class SpringSecurityUserService implements UserDetailsService {
         Client client = clientRepository.findClientByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         client.setPassword(bcryptEncoder.encode(validator.checkPasswords(passwordRequest.getPassword(), passwordRequest.getConfirmPassword())));
         clientRepository.save(client);
+    }
+
+    public void saveClientFromSocialSignInRequest(SocialSignInRequest socialSignInRequest) throws EmailValidationEx, DuplicateEmailEx, PasswordValidationEx, FirstnameValidationEx, LastnameValidationEx {
+        String[] nameSurname = socialSignInRequest.getName().split(" ");
+        Client client = new Client();
+        client.setEmail(validator.validateEmailOnRegistration(
+                constructEmailForSocial(socialSignInRequest.getEmail(), socialSignInRequest.getProvider())));
+        client.setPassword(bcryptEncoder.encode(validator.validatePassword(socialSignInRequest.getId())));
+        client.setFirstName(validator.validateFirstname(nameSurname[0]));
+        client.setLastName(validator.validateLastname(nameSurname[1]));
+        client.setRole(Role.DRIVER);
+        clientRepository.save(client);
+    }
+
+    public String constructEmailForSocial(String email, String provider) {
+        return "$" + provider + "$" + email;
     }
 }

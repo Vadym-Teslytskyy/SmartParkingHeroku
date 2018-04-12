@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="client">
     <mat-card class="card offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10">
         <mat-card-header>
             <div>
@@ -24,7 +24,7 @@
                             </mat-panel-title>
                             <mat-panel-description>
                                 <span *ngIf="client.image">
-                                    <img src="data:image/JPEG;base64,{{client.image}}" style="height: 50px;">
+                                    <img src="data:image/JPEG;base64,{{client.image}}" style="height: 50px; width:50px;" class="rounded-circle">
                                 </span>
                             </mat-panel-description>
                             <!--<mat-icon>store</mat-icon>-->
@@ -134,7 +134,7 @@
                     <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle="true">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
-                                Password
+                                Password/ <span style="color:grey;">(If you didn`t get email, try latter)</span>
                             </mat-panel-title>
                             <!--<mat-icon>store</mat-icon>-->
                         </mat-expansion-panel-header>

@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Role} from "../role";
 import {Client} from "../../model/view/client";
 import {Provider} from "../../model/view/provider";
-import {ProviderService} from "../../superuser-configuration/providers/provider.service";
+import {MatSnackBar} from '@angular/material';
 
 @Component({
     selector: 'app-client-edit',
@@ -23,7 +23,8 @@ export class ClientEditComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
                 private clientService: ClientService,
-                private router: Router) {
+                private router: Router,
+                private snackBar: MatSnackBar) {
     }
 
     ngOnInit() {
@@ -59,7 +60,10 @@ export class ClientEditComponent implements OnInit {
             }
             this.clientService.updateClient(this.id, this.client)
                 .subscribe(data => {
-                    alert('Client was updated successfully.');
+                    this.snackBar.open('Client has been updated successfully', null, {
+                        duration: 4000
+                    });
+
                 });
         }
     }

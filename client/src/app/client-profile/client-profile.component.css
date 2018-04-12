@@ -11,3 +11,7 @@ span {
     color: #6610f2;
     content: "go to providers details";
 }
+
+mat-panel-title {
+    width: 100px;
+}

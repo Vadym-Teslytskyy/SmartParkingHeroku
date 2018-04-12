@@ -5,6 +5,7 @@
         </div>
     </div>
 </div>
+
 <div *ngIf="parking">
     <mat-card class="card col-sm-12 col-md-12 col-lg-12 mt-3">
         <mat-card-header>
@@ -42,9 +43,9 @@
                 </div>
                 <div class="col-10" *ngIf="parking.isFavorite">
                     <span style="font-size:18px;" ><b>Parking is in your favorites as:</b> <b><i>{{parking.favoriteName}}</i></b></span>
-                    <!-- <button mat-icon-button color="warn" (click)="onParkingAddToFavoritesClick()">
-                    <mat-icon>star_rate</mat-icon>
-                </button> -->
+                    <button mat-icon-button color="warn" (click)="onParkingDeleteClick()">
+                    <mat-icon>delete_forever</mat-icon>
+                </button>
             </div>
                 
                 </mat-list-item>
@@ -83,6 +84,9 @@
                 <mat-divider></mat-divider>
             </mat-list>
         </mat-card-content>
+        <button mat-raised-button color="primary"   (click)="sendToSpotStatistic()">Show spots statistic of this parking
+              
+        </button>
         <mat-card-actions align="center">
             <ngb-accordion>
                 <ngb-panel id="preventchange-1">

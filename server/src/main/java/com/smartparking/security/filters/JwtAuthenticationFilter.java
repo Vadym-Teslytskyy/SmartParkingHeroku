@@ -1,5 +1,6 @@
 package com.smartparking.security.filters;
 
+import com.smartparking.security.tokens.TokenPair;
 import com.smartparking.security.tokens.TokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -8,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,46 +33,60 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private TokenUtil tokenUtil;
 
-    @Value("${app.jwt.header_string}")
-    private String HEADER_STRING;
-    @Value("${app.jwt.token_prefix}")
-    private String TOKEN_PREFIX;
+    @Value("${jwt.accessTokenHeader}")
+    private String accessTokenHeader;
+
+    @Value("${jwt.refreshTokenHeader}")
+    private String refreshTokenHeader;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        LOGGER.info("Go in filter");
-        String header = request.getHeader(HEADER_STRING);
-        LOGGER.info("Authorization header = " + header);
+        String accessToken = request.getHeader(accessTokenHeader);
+        String refreshToken = request.getHeader(refreshTokenHeader);
+
+        LOGGER.info("AccessHeader header = " + accessToken);
+        LOGGER.info("RefreshHeader header = " + refreshToken);
+
         String username = null;
-        String authToken = null;
-        if (header != null && header.startsWith(TOKEN_PREFIX)) {
-            authToken = header.replace(TOKEN_PREFIX+" ","");
-            LOGGER.info("Token = "  + authToken);
+        if (accessToken != null) {
+            LOGGER.info("Go in access token filter");
             try {
-                username = tokenUtil.getUsernameFromToken(authToken);
+                username = tokenUtil.getUsernameFromToken(accessToken);
                 LOGGER.info("Find user with username " + username);
             } catch (IllegalArgumentException e) {
                 LOGGER.warn("Claims jws string is or empty or only whitespace");
             } catch (ExpiredJwtException e) {
                 LOGGER.warn("The token is expired and not valid anymore");
-                /*response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().println(tokenUtil.refreshToken(e));*/
-            } catch(SignatureException e){
+            } catch (SignatureException e) {
                 LOGGER.warn("JWS signature validation fails");
             }
-        } else {
-            LOGGER.warn("Couldn't find authorization header, it will be ignored");
+        }
+        if (refreshToken != null) {
+            LOGGER.info("Go in refresh token filter");
+            try {
+                username = tokenUtil.getUsernameFromToken(refreshToken);
+                TokenPair tokenPair = tokenUtil.generateTokenPair(userDetailsService.loadUserByUsername(username));
+                response.addHeader("access-control-expose-headers", accessTokenHeader + ", " + refreshTokenHeader);
+                response.setHeader(accessTokenHeader, tokenPair.getAccessToken());
+                response.setHeader(refreshTokenHeader, tokenPair.getRefreshToken());
+            } catch (IllegalArgumentException e) {
+                LOGGER.warn("Claims jws string is or empty or only whitespace");
+            } catch (ExpiredJwtException e) {
+                LOGGER.warn("The token is expired and not valid anymore");
+                response.sendError(401, "Refresh token expired");
+            } catch (SignatureException e) {
+                LOGGER.warn("JWS signature validation fails");
+            }
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-            if (tokenUtil.validateToken(authToken, userDetails)) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                LOGGER.info("Authenticated user " + username + ", setting security context");
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            LOGGER.info("Authenticated user " + username + ", setting security context");
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        filterChain.doFilter(request, response);
+        if(!response.isCommitted()) {
+            filterChain.doFilter(request, response);
+        }
     }
 }

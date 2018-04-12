@@ -1,9 +1,10 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {AbstractControl, FormControl, ValidatorFn} from '@angular/forms';
+import {ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AbstractControl, FormControl, FormControlName, ValidatorFn} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {MapsAPILoader} from '@agm/core';
 import {IpLocation, IpLocationService} from '../../../service/ip-location.service';
 import {Subject} from 'rxjs/Subject';
+import {MatAutocomplete, MatOption, MatSlider} from '@angular/material';
 
 @Component({
     selector: 'app-parking-list-filter-location-field',
@@ -14,13 +15,13 @@ export class LocationFieldComponent implements OnInit {
 
     public readonly control: FormControl = new FormControl();
 
-    private predictionItems: PredictionItem[] = [];
+    public predictionItems: PredictionItem[] = [];
 
-    private geolocationItem: GeolocationItem;
+    public geolocationItem: GeolocationItem;
 
-    private ipLocationItem: IpLocationItem;
+    public ipLocationItem: IpLocationItem;
 
-    private geocodeService: google.maps.Geocoder;
+    public geocodeService: google.maps.Geocoder;
 
     private autocompleteService: google.maps.places.AutocompleteService;
 
@@ -35,7 +36,7 @@ export class LocationFieldComponent implements OnInit {
     private readonly valueChangesSubject = new Subject<Location>();
 
     public readonly valueChanges = this.valueChangesSubject.asObservable();
-
+    public name: string;
     private internalValue: Location;
 
     constructor(private mapsAPILoader: MapsAPILoader,
@@ -77,7 +78,6 @@ export class LocationFieldComponent implements OnInit {
     }
 
     ngOnDestroy(): void {
-//        this.controlChangesSubscription.unsubscribe();
         window.navigator.geolocation.clearWatch(this.geolocationDescriptor);
     }
 
@@ -95,7 +95,7 @@ export class LocationFieldComponent implements OnInit {
                 position => this.onGeolocationSuccess(position),
                 error => this.onGeolocationError(error),
                 <PositionOptions> {
-                    timeout: 1000,
+                    timeout: 10000,
                     enableHighAccuracy: false
                 }
             );
@@ -287,8 +287,8 @@ export class IpLocationItem extends LocationItem<IpLocation> {
 
 export class Location {
 
-    public readonly latitude: number;
-    public readonly longitude: number;
+    public latitude: number;
+    public longitude: number;
 
     constructor(latitude: number, longitude: number) {
         this.latitude = latitude;

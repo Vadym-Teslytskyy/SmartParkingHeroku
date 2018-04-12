@@ -4,6 +4,7 @@ import com.smartparking.entity.Client;
 import com.smartparking.entity.Provider;
 import com.smartparking.entity.Role;
 import com.smartparking.model.request.ClientRequest;
+import com.smartparking.model.response.ClientDetailResponse;
 import com.smartparking.repository.ClientRepository;
 import com.smartparking.service.AbstractService;
 import com.smartparking.service.ClientService;
@@ -15,15 +16,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientServiceImpl extends AbstractService<Client, Long, ClientRepository> implements ClientService {
 
     @Autowired
     ClientRepository clientRepository;
-
-    @Autowired
-    private PasswordEncoder bcryptEncoder;
 
     protected ClientServiceImpl(@Autowired ClientRepository repository) {
         super(repository);
@@ -37,10 +36,13 @@ public class ClientServiceImpl extends AbstractService<Client, Long, ClientRepos
     @Override
     @Transactional
     public void updateFromRequest(Long id, ClientRequest clientRequest) {
-        Client client = findById(id);
+        Client client = findById(id).orElse(null);
 
-        Provider provider = findProviderById(clientRequest.getProvidersId());
-        client.setProvider(provider);
+        if (clientRequest.getProvidersId() != null) {
+            Provider provider = findProviderById(clientRequest.getProvidersId());
+            client.setProvider(provider);
+        }
+
         client.setRole(Role.valueOf(clientRequest.getRole()));
 
         client.setFirstName(clientRequest.getFirstName());
@@ -67,10 +69,13 @@ public class ClientServiceImpl extends AbstractService<Client, Long, ClientRepos
         return getRepository().findProviderById(id);
     }
 
-
     @Override
     public List<Client> findClientsByRole(String input) {
         return getRepository().findClientsByRole(input);
     }
 
+    @Override
+    public Optional<ClientDetailResponse> findByIdResponse(Long id) {
+        return getRepository().findById(id).map(ClientDetailResponse::of);
+    }
 }

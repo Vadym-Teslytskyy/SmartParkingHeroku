@@ -28,7 +28,7 @@ public class Event extends AbstractIdentifiableEntity {
     @Column(name = "timestamp", nullable = false)
     private Instant timestamp;
 
-    public Event(@NotNull Spot spot, @NotNull Instant timestamp, @NotNull EventType eventType) {
+    public Event(@NotNull Spot spot, @NotNull EventType eventType, @NotNull Instant timestamp) {
         this.spot = spot;
         this.timestamp = timestamp;
         this.eventType = eventType;

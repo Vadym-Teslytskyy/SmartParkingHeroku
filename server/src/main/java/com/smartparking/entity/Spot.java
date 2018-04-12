@@ -1,6 +1,7 @@
 package com.smartparking.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 @Table(name = "spot")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Spot extends AbstractIdentifiableEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -17,4 +19,8 @@ public class Spot extends AbstractIdentifiableEntity {
 
     @OneToMany(mappedBy = "spot")
     private List<Event> events;
+
+    public Spot(Long id) {
+        super(id);
+    }
 }

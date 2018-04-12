@@ -2,6 +2,7 @@ package com.smartparking.service.impl;
 
 import com.smartparking.entity.Parking;
 import com.smartparking.entity.Spot;
+import com.smartparking.model.response.SpotStatisticResponse;
 import com.smartparking.repository.SpotRepository;
 import com.smartparking.repository.SpotStatisticRepository;
 import com.smartparking.service.AbstractService;
@@ -9,8 +10,8 @@ import com.smartparking.service.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class SpotServiceImpl extends AbstractService<Spot, Long, SpotRepository> implements SpotService {
@@ -44,12 +45,17 @@ public class SpotServiceImpl extends AbstractService<Spot, Long, SpotRepository>
     }
 
     @Override
-    public List<Parking> findMostPopularParkingsByStreet(String input) {
-        return repository.findMostPopularParkingsByStreet(input);
+    public List<Parking> findBestParkings(String city, String street, Instant date) {
+        return repository.findBestParkings(city, street, date);
     }
 
     @Override
-    public Map<Long, Double> getSpotStatistic(long id) {
-        return spotStatisticRepository.getSpotStatistic(id);
+    public List<Parking> findBestParkingsInTheCity(String city, Instant date) {
+        return repository.findBestParkingsInTheCity(city, date);
+    }
+
+    @Override
+    public List<SpotStatisticResponse> getSpotStatistic(long id, long startDate, long endDate) {
+        return spotStatisticRepository.getSpotStatistic(id, startDate, endDate);
     }
 }

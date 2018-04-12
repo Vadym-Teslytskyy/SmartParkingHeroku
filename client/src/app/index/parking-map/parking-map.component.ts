@@ -1,8 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ParkingService} from '../../parking.service';
 import {Parking} from '../../model/view/parking';
-import {icon, latLng, marker, polyline, tileLayer} from 'leaflet';
-import {ParkingListFilterComponent} from '../parking-list-filter/parking-list-filter.component';
+import {ParkingService} from '../../parking.service';
 
 @Component({
     selector: 'app-parking-map',
@@ -10,47 +8,46 @@ import {ParkingListFilterComponent} from '../parking-list-filter/parking-list-fi
     styleUrls: ['./parking-map.component.css']
 })
 
+
 export class ParkingMapComponent implements OnInit {
-     lat: number;
-     lng: number;
+    lat = 49.843977;
+    lng = 24.026318;
     parkings: Parking[];
     dir = undefined;
+    distance: string;
 
     constructor(private parkingService: ParkingService) {
     }
 
     ngOnInit() {
-        this.findMe();
-    }
-
-    findMe() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position => {
-                this.getPosition(position);
-            }));
-        }
-    }
+            navigator.geolocation.getCurrentPosition(position => {
+                this.lat = position.coords.latitude;
+                this.lng = position.coords.longitude;
 
-    private getPosition(position: Position) {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        console.log(this.lat, this.lng);
+                this.parkingService.getParkingsNearby(this.lat, this.lng, 7000).subscribe((response) => {
+                    this.parkings = response.body;
+                }, error => {
+                    console.log(error);
+                });
+            });
+        }
     }
 
     getDirection(lat, lng) {
         this.dir = {
             origin: {lat: this.lat, lng: this.lng},
-            destination: {lat: lat, lng: lng}
+            destination: {lat: lat, lng: lng},
+            drivingOptions: {
+                departureTime: new Date(Date.now()),
+                trafficModel: 'pessimistic'
+            },
+            travelMode: 'DRIVING'
         };
     }
 
-    /*  parkingCoordinates() {
-          this.parkingService.getParkingsNearby(this.lat, this.lng, 10000)
-              .subscribe((response) => {
-                  this.parkings = response.body;
-              }, error => {
-                  console.log(error);
-              });
-      }*/
+    round(floatNumber: number): number {
+        return Math.floor(floatNumber) / 1000;
+    }
 
 }

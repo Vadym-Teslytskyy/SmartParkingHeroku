@@ -1,6 +1,10 @@
-<agm-map [latitude]="lat"
-         [longitude]="lng"
-         [fullscreenControl]="true">
+<agm-map [latitude]="49.83826"
+         [longitude]="24.02324"
+         [fullscreenControl]="true"
+         [zoom]="10">
+    <agm-direction *ngIf="dir" [drivingOptions]="dir.drivingOptions" [travelMode]="dir.travelMode" [origin]="dir.origin"
+                   [destination]="dir.destination">
+    </agm-direction>
     <agm-marker [latitude]="lat" [longitude]="lng" [draggable]="true"></agm-marker>
     <div *ngFor="let parking of parkings">
         <agm-marker [latitude]="parking.latitude" [longitude]="parking.longitude"
@@ -8,25 +12,19 @@
             <agm-info-window [disableAutoPan]="false">
                 <ul>
                     <li><b>Address:</b> {{parking.city}} / {{parking.street}} / {{parking.building}}</li>
-                    <li><b>Distance:</b> {{parking.distance}}</li>
+                    <li><b>Distance:</b> {{parking.distance}} km</li>
                     <li><b>Spots:</b> {{parking.spotsCount}}</li>
                     <li><b>Spots available:</b> {{parking.availableSpotsCount}}</li>
                 </ul>
-                <button type="button" (click)="getDirection(parking.latitude, parking.longitude)">Get</button>
+
+                <button mat-button routerLink='/parkingdetail/{{parking.id}}' color="primary">Get detail</button>
+                <button mat-button class="btn btn-success" (click)="getDirection(parking.latitude, parking.longitude)">
+                    Start route!
+                </button>
             </agm-info-window>
         </agm-marker>
-        <agm-direction *ngIf="dir" [origin]="dir.origin" [destination]="dir.destination"></agm-direction>
     </div>
 </agm-map>
 
-
-<!--LEAFLET VARIANT-->
-<!--
-<div class="map"
-     leaflet
-     [leafletOptions]="options"
-     [leafletLayersControl]="layersControl">
-</div>
--->
 
 

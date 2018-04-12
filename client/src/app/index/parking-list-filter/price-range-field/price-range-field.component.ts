@@ -42,8 +42,8 @@ export class PriceRangeFieldComponent implements OnInit {
                 this.valueChangesSubject.next(new PriceRange(this.minControl.value, max));
             }
         });
-        this.minControl.setValue(0);
-        this.maxControl.setValue(undefined);
+        this.minControl.setValue(localStorage.getItem("minValue"));
+        this.maxControl.setValue(localStorage.getItem("maxValue"));
         this.minControl.markAsTouched();
         this.maxControl.markAsTouched();
     }

@@ -39,7 +39,7 @@
     <div class="filter offset-1 col-md-10">
         <mat-divider style="border-color: purple;"></mat-divider>
         <mat-card class="card">
-            <form class="example-form" [formGroup]="providerFilterForm" (ngSubmit)="getProviders()">
+            <form class="example-form" [routerLink]="['/configuration/providers']" [queryParams]="providerFilterForm.getRawValue()" [formGroup]="providerFilterForm" (ngSubmit)="getProviders()">
                 <div class="row">
                     <mat-form-field class="col-md-3">
                         <input matInput placeholder="Company name" formControlName="companyName">

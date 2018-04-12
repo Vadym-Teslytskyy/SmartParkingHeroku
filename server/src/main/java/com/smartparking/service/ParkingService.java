@@ -1,7 +1,9 @@
 package com.smartparking.service;
 
 import com.smartparking.entity.Parking;
+import com.smartparking.model.request.ParkingNearbyRequest;
 import com.smartparking.model.response.ParkingResponse;
+import com.smartparking.model.response.ParkingWithSpotsResponse;
 import com.smartparking.repository.ParkingRepository;
 
 import java.util.List;
@@ -13,7 +15,9 @@ public interface ParkingService extends Service<Parking, Long, ParkingRepository
 
     List<ParkingResponse> findAllByProviderIdResponse(Long id);
 
-    List<ParkingResponse> findAllNearbyResponse(Double latitude, Double longitude, Double radius);
+    List<ParkingResponse> findAllNearbyResponse(ParkingNearbyRequest request);
+
+    List<ParkingWithSpotsResponse> findAllWithSpotsResponse();
 
     Boolean isFavorite(String email, Long parkingId);
 
@@ -21,5 +25,10 @@ public interface ParkingService extends Service<Parking, Long, ParkingRepository
 
     List<Parking> findParkingsByCity(String input);
 
-    List<String> findParkingStreetByAnyMatch(String input);
+    List<String> findParkingStreetByAnyMatch(String city, String street);
+
+    List<String> findParkingCitiesByAnyMatch(String input);
+
+    List<String> findAllParkingCities();
+
 }

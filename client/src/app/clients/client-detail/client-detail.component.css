@@ -7,7 +7,11 @@ span {
     color: coral;
 }
 
-#prov:hover::after {
-    color: #6610f2;
-    content: "go to providers details";
+#prov {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#details{
+    color: #039be5;
 }

@@ -13,12 +13,14 @@ public class ParkingItemResponse {
     private String street;
     private BigDecimal price;
     private String providerName;
+    private String building;
 
     public static ParkingItemResponse of(Parking parking){
         ParkingItemResponse parkingItemResponse = new ParkingItemResponse();
         parkingItemResponse.setId(parking.getId());
         parkingItemResponse.setCity(parking.getCity());
         parkingItemResponse.setStreet(parking.getStreet());
+        parkingItemResponse.setBuilding(parking.getBuilding());
         parkingItemResponse.setPrice(parking.getPrice());
         parkingItemResponse.setProviderName(parking.getProvider().getName());
         return parkingItemResponse;

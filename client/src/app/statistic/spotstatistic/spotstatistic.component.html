@@ -1,0 +1,88 @@
+
+  <div class="col-xs-12 col-12 col-md-4 form-group">
+    <button class="btn btn-success" (click)="returnToParkingDetail()">Return to parking detail</button>
+   </div>  
+ <h1>Spot statistic of this parking</h1>
+ 
+<mat-card class="card offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10">
+  
+  <mat-card-header>
+   
+<table class="table table-hover">
+  <thead>
+      <tr class="text-center">
+          <th scope="col">Spot number #</th>
+          <th scope="col">Hours have been taken</th>
+          <th scope="col">Popularity(How many times was busy)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let spotstatistic of statistic" class="text-center">
+          <th scope="row">{{spotstatistic.id}}</th>
+          <th scope="row">{{spotstatistic.numberOfHours}}</th>
+          <th scope="row">{{spotstatistic.numberOfEvents}}</th>
+                                            
+        
+          
+      </tr>
+  </tbody>
+</table>
+</mat-card-header> 
+</mat-card> 
+
+<div class="row">
+
+        <div class="col-xs-12 col-12 col-md-4 form-group">
+                <label>Set start data period</label>
+                <input type="text" class="form-control" placeholder="Datepicker" #dp="bsDatepicker" bsDatepicker  [(ngModel)]="minDate">                    
+              </div>
+
+              <div class="col-xs-12 col-12 col-md-4 form-group">
+                    <label>Set finish data period</label>
+                    <input type="text" class="form-control" placeholder="Datepicker" #dp="bsDatepicker" bsDatepicker  [(ngModel)]="maxDate">                                 
+              </div>
+
+
+
+
+    <div class="col-xs-12 col-12 col-md-4 form-group">
+        <div>
+      <label>Display statistic table of spots</label>
+    </div>
+    <div>
+     <button class="btn btn-success" (click)="addItem()">Display</button>
+    </div>  
+    </div>
+    <div class="col-xs-12 col-12 col-md-4 form-group">
+     <button class="btn btn-success" (click)="showHoursGraphic()">Display statistic hour graphic</button>
+     </div> 
+    
+     <div class="col-xs-12 col-12 col-md-4 form-group">
+      <button class="btn btn-success" (click)="showEventsGraphic()">Display graphic of popularity spots</button>
+     </div> 
+    
+
+  
+
+  
+</div>
+
+
+
+
+<div >
+  <canvas id="canvas">{{ hoursChart }}</canvas>
+</div>
+
+
+
+ <div >
+  <canvas id="canvas">{{ eventsChart }}</canvas>
+</div>
+
+
+
+
+
+  
+

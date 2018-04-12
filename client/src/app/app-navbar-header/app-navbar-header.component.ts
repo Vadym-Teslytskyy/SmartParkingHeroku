@@ -10,21 +10,21 @@ export class AppNavbarHeaderComponent implements OnInit {
 
   navTitle = 'SmartParking';
 
-  constructor() { }
+  constructor(private tokenStorage: TokenStorage) { }
 
   ngOnInit() {
   }
 
   getRole(): string {
-    return TokenStorage.getRole();
+    return this.tokenStorage.getRole();
   }
 
   hasToken(): boolean{
-    return TokenStorage.hasToken();
+    return this.tokenStorage.hasToken();
   }
 
   logOut() {
-      TokenStorage.signOut();
+      this.tokenStorage.signOut();
   }
 
 

@@ -1,10 +1,13 @@
 package com.smartparking.controller;
 
-import com.smartparking.security.exception.AuthorizationEx;
+import com.smartparking.model.request.SocialSignInRequest;
+import com.smartparking.security.exception.*;
 import com.smartparking.model.request.RegistrationRequest;
 import com.smartparking.model.response.AuthTokenResponse;
 import com.smartparking.model.request.LoginRequest;
 import com.smartparking.model.response.InfoResponse;
+import com.smartparking.security.tokens.TokenPair;
+import com.smartparking.service.email.EmailService;
 import com.smartparking.service.impl.SpringSecurityUserService;
 import com.smartparking.security.tokens.TokenUtil;
 import com.smartparking.entity.SpringSecurityUser;
@@ -24,6 +27,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +35,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class SecurityController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityController.class);
-    private static final String CLAIM_USERNAME_KEY = "username";
     @Autowired
     private Validator validator;
 
@@ -48,9 +51,11 @@ public class SecurityController {
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
+    @Autowired
+    EmailService emailService;
+
     @RequestMapping(value = "/generate-token", method = RequestMethod.POST)
     public ResponseEntity register(@RequestBody LoginRequest loginRequest) throws AuthenticationException {
-        LOGGER.info("Start validation process");
         final String email;
         final String password;
         try {
@@ -60,50 +65,70 @@ public class SecurityController {
             LOGGER.warn(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new InfoResponse(e.getMessage()));
         }
-        LOGGER.info("Start authorization process");
         LOGGER.info("Search user with username " + email);
         final UserDetails user = userService.loadUserByUsername(email);
         LOGGER.info(email + " = " + user);
-        LOGGER.info("Start validation");
         if(user != null && bcryptEncoder.matches(password, user.getPassword())) {
-            LOGGER.info("User is valid");
             final Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, password)
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            final String token = tokenUtil.generateToken((SpringSecurityUser) user);
-            return ResponseEntity.ok(new AuthTokenResponse(token));
+            final TokenPair tokenPair = tokenUtil.generateTokenPair(user);
+            return ResponseEntity.ok(new AuthTokenResponse(tokenPair.getAccessToken(), tokenPair.getRefreshToken()));
         }
-        LOGGER.info("Password is incorrect.");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new InfoResponse("Password is incorrect"));
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ResponseEntity saveUser(@RequestBody RegistrationRequest regReq) {
-        LOGGER.info("Start registration");
         try {
             ((SpringSecurityUserService)userService).saveClientFromRegistrationRequest(regReq);
         } catch (AuthorizationEx e) {
             LOGGER.warn(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new InfoResponse(e.getMessage()));
         }
+        new Thread(() -> emailService.prepareAndSendWelcomeEmail(regReq.getEmail(),regReq.getFirstname())).start();
         LOGGER.info("Registered successfull");
         return ResponseEntity.status(HttpStatus.OK).body(new InfoResponse("You are successfull registered"));
     }
 
-    @RequestMapping(value = "/refresh", method = RequestMethod.POST)
-    public ResponseEntity refresh(@RequestBody AuthTokenResponse authToken) {
-        LOGGER.info("Go into refresh block");
-        try {
-            tokenUtil.getUsernameFromToken(authToken.getToken());
-        } catch (IllegalArgumentException e) {
-            LOGGER.warn("Claims jws string is or empty or only whitespace");
-        } catch (ExpiredJwtException e) {
-            LOGGER.info("Token expired");
-            return ResponseEntity.ok(new AuthTokenResponse(tokenUtil.generateToken(userService.loadUserByUsername(e.getClaims().get(CLAIM_USERNAME_KEY, String.class)))));
-        } catch(SignatureException e){
-            LOGGER.warn("JWS signature validation fails");
+    @RequestMapping(value = "/social", method = RequestMethod.POST)
+    public ResponseEntity socialSignIn(@RequestBody SocialSignInRequest request) {
+        LOGGER.info("Try to sign in with social");
+        UserDetails user = null;
+        LOGGER.info("Now user = " + null);
+        String email = ((SpringSecurityUserService) userService).constructEmailForSocial(request.getEmail(), request.getProvider());
+        LOGGER.info("Created email = " + email);
+        while(user == null) {
+            LOGGER.info("Entry into loop");
+            try {
+                LOGGER.info("Loading user");
+                user = userService.loadUserByUsername(email);
+                LOGGER.info("Loaded user = " + user);
+            } catch (Exception e) {
+                LOGGER.info("Catch exception = " + e);
+                try {
+                    LOGGER.info("try to save client");
+                    ((SpringSecurityUserService) userService).saveClientFromSocialSignInRequest(request);
+                    LOGGER.info("Client saved");
+                } catch (AuthorizationEx ex) {
+                    LOGGER.warn(ex.getMessage());
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new InfoResponse(e.getMessage()));
+                }
+            }
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new InfoResponse("Error"));
+        LOGGER.info("Try to authorize");
+        if(user != null && bcryptEncoder.matches(request.getId(), user.getPassword())) {
+            LOGGER.info("Start authorization");
+            final Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, request.getId())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            final TokenPair tokenPair = tokenUtil.generateTokenPair(user);
+            return ResponseEntity.ok(new AuthTokenResponse(tokenPair.getAccessToken(), tokenPair.getRefreshToken()));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new InfoResponse("You are successfuly authorized"));
     }
+
+
 }

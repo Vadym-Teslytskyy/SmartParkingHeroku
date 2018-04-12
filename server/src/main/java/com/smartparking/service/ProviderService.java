@@ -10,11 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProviderService extends Service<Provider, Long, ProviderRepository> {
+
     void saveFromRequest(ProviderRequest providerRequest);
 
     List<Provider> findAllByFilter(ProviderFilter providerFilter);
 
-    Provider findProviderByClientId(Long id);
+    Optional<ProviderResponse> findProviderByClientId(Long id);
 
     Optional<Provider> findByParkingId(Long parkingId);
 

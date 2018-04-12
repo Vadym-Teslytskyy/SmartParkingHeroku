@@ -1,9 +1,12 @@
-<h3 class="text-center">The most popular parkings:</h3>
+<h3 class="text-center">The most popular parkings in <span>{{selectedCity}}</span><span
+        *ngIf="selectedStreet !=''"> on the street {{selectedStreet}}</span> for the last {{this.selectedNumberOfDays}}
+    days
+</h3>
 <div class="parent row">
 
     <div class="col-md-12">
         <ul>
-            <div *ngFor="let parking of parkings">
+            <div *ngFor="let parking of pagedParkingItems">
                 <mat-card class="card offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10">
                     <mat-card-header>
                         <div mat-card-avatar class="example-header-image">
@@ -11,9 +14,10 @@
                         </div>
                         <div style="min-width: 70%;">
                             <div>
-                                <mat-card-title>{{parking.city}}, {{parking.street}} street</mat-card-title>
-                                <mat-card-subtitle>{{parking.providerName}}</mat-card-subtitle>
-
+                                <mat-card-title>Parking address: {{parking.city}}, {{parking.street}} street /
+                                    {{parking.building}}
+                                </mat-card-title>
+                                <mat-card-subtitle>Provider name: {{parking.providerName}}</mat-card-subtitle>
                             </div>
                         </div>
                         <div style="width: 100%"></div>
@@ -27,35 +31,67 @@
                 </mat-card>
                 <hr/>
             </div>
+            <div class="pagination" *ngIf="allParkings>5">
+                <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                        <a class="page-link" (click)="setPage(1)">First</a>
+                    </li>
+                    <li class="page-item" *ngFor="let page of pager.pages"
+                        [ngClass]="{active:pager.currentPage === page}">
+                        <a class="page-link" (click)="setPage(page)">{{page}}</a>
+                    </li>
+                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
+                    </li>
+                </ul>
+            </div>
         </ul>
     </div>
 </div>
 <div class="row">
-    <div class="filter offset-1 col-md-10">
+    <div class="filter offset-1 col-md-10" id="cont">
         <mat-divider style="border-color: purple;"></mat-divider>
         <mat-card class="card">
-
+            <h6 [(ngModel)]="selectedStreet" [(ngModel)]="selectedCity" ngDefaultControl>Find the most popular parking
+                in <span matTooltip="Click to see the statistic by all streets!" id="city"
+                         (click)="clearStreetAndFindTheBestParkingsInTheCity()">{{selectedCity}}</span> on the street:
+                <span
+                        *ngIf="selectedStreet ==''">--not selected--</span><span>{{selectedStreet}}</span> for the
+                last <span>{{selectedNumberOfDays}}</span> days</h6>
             <div class="row">
+
+                <mat-form-field>
+                    <mat-select [(value)]="selectedCity" placeholder="change city">
+                        <mat-option *ngFor="let parkingsCity of parkingsCities" [value]="parkingsCity"
+                                    (click)="clearStreetAndFindTheBestParkingsInTheCity()">
+                            {{ parkingsCity }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
                 <mat-form-field class="col-md-3">
-                    <input matInput placeholder="search" #searchBox id="search-box"
-                           (keyup)="findParkingsStreets(searchBox.value)">
-                    <ul class="search-result">
-                        <li *ngFor="let parkingsStreet of parkingsStreets">
-                            <!--The $ is a convention that indicates heroes$ is an Observable, not an array.-->
-                            <a (click)="findBestParkingsByStreet(parkingsStreet)">
-                                {{parkingsStreet}}
-                            </a>
-                        </li>
-                    </ul>
+                    <input matInput placeholder="find street" #streetSearchBox id="street-box"
+                           (keyup)="findParkingsStreetsFromInput(streetSearchBox.value)"
+                           [matAutocomplete]="auto2">
+                    <mat-autocomplete #auto2="matAutocomplete">
+                        <mat-option *ngFor="let parkingsStreet of parkingsStreets"
+                                    (click)="selectStreet(parkingsStreet)"
+                                    (click)="findBestParkings()">
+                            {{parkingsStreet}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-select [(value)]="selectedNumberOfDays" placeholder="for the last days">
+                        <mat-option *ngFor="let day of days" [value]="day"
+                                    (click)="findBestParkings()"
+                        >
+                            {{ day }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
-            <div class="row">
-                <div class="offset-5 col-6">
-                    <button mat-raised-button color="primary" class="mt-5">Search</button>
-                </div>
-            </div>
-
-
         </mat-card>
     </div>
 </div>

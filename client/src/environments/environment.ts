@@ -6,4 +6,7 @@
 export const environment = {
     production: false,
     apiUrl: 'https://smartparkingserver.herokuapp.com',
+    angularUrl: 'http://localhost:4200/',
+    accessTokenHeader: 'Access-token',
+    refreshTokenHeader: 'Refresh-token'
 };

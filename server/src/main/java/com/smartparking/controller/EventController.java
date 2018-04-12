@@ -1,16 +1,35 @@
 package com.smartparking.controller;
 
-import org.springframework.stereotype.Controller;
+import com.smartparking.entity.Event;
+import com.smartparking.model.request.VerifiedEventRequest;
+import com.smartparking.service.EventService;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-//import com.smartparking.model.request.EventRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class EventController {
 
-//    @PostMapping("/events/save")
-//    void saveEvents(@RequestBody(required = false) List<EventRequest> requests) {
-//        if (true) {
-//            throw new BadRequestException("AAAAAAAAAA");
-//        }
-//    }
+    @Autowired
+    private EventService eventService;
+
+    @Autowired
+    AmqpTemplate amqpTemplate;
+
+    @Autowired
+    RabbitProperties rabbitProperties;
+
+    @PostMapping("/events/save")
+    private void saveEvents(@RequestBody List<VerifiedEventRequest> requests) {
+        List<Event> events = requests.stream()
+                .map(VerifiedEventRequest::toEvent)
+                .collect(Collectors.toList());
+        eventService.saveAll(events);
+    }
 }

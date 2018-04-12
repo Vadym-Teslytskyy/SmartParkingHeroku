@@ -2,7 +2,7 @@ package com.smartparking.controller.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class BadRequestException extends HttpStatusException {
+public class BadRequestException extends FailureException {
 
     public BadRequestException() {
         super(HttpStatus.BAD_REQUEST);

@@ -1,6 +1,7 @@
 package com.smartparking.controller;
 
 import com.smartparking.entity.Client;
+import com.smartparking.entity.Favorite;
 import com.smartparking.entity.Parking;
 import com.smartparking.model.request.FavoriteRequest;
 import com.smartparking.model.response.InfoResponse;
@@ -30,7 +31,7 @@ public class FavoriteController {
 
     @PostMapping("parkingdetail/{id}/savetofavorites")
     ResponseEntity<?> saveToFavorites(@RequestBody FavoriteRequest favoriteRequest, @PathVariable Long id) {
-        Parking parking = parkingService.findById(id);
+        Parking parking = parkingService.findById(id).orElse(null);
         Client client = clientService.findOne(
                 SecurityContextHolder.getContext().getAuthentication().getName());
         Boolean isFavorite = parkingService.isFavorite(client.getEmail(), id);
@@ -40,6 +41,14 @@ public class FavoriteController {
         }else {
             return ResponseEntity.status(HttpStatus.OK).body(new InfoResponse("Parking is already in favorites"));
         }
+    }
+
+    @PostMapping("parkingdetail/{id}/deletefromfavorites")
+    ResponseEntity<?> deleteFromFavorites(@PathVariable Long id){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Favorite favorite = favoriteService.findFavoriteByClientEmailAndParkingId(email, id);
+        favoriteService.delete(favorite);
+        return ResponseEntity.status(HttpStatus.OK).body(new InfoResponse("Parking was deleted from favorites"));
     }
 
 }
